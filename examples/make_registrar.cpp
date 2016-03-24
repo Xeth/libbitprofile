@@ -6,22 +6,15 @@
 
 #include "bitprofile/MasterRegistrar.hpp"
 
-#include "utils/PromptPassword.hpp"
+#include "utils/UnlockAccount.hpp"
 
 int main(int argc, char **argv)
 {
 
-    std::string password = PromptPassword();
 
     Ethereum::Connector::Provider provider;
     provider.connect();
-
-    Ethereum::Connector::Wallet wallet(provider);
-    if(!wallet.unlockAccount(wallet.getCoinBase(), password))
-    {
-        std::cout<<"failed to unlock default account"<<std::endl;
-        return 2;
-    }
+    UnlockAccount(provider);
 
     BitProfile::MasterRegistrar registrar(provider, BitProfile::MasterRegistrar::Test_Net);
 
