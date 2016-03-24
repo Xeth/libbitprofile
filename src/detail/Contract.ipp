@@ -29,6 +29,11 @@ inline std::string Contract::cast(ResultTypeTag<std::string>, ContractResult &re
     return result.toString();
 }
 
+inline uint256_t Contract::cast(ResultTypeTag<uint256_t>, ContractResult &result)
+{
+    return result.toUint();
+}
+
 
 inline bool Contract::cast(ResultTypeTag<bool>, ContractResult &result)
 {

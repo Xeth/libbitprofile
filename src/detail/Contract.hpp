@@ -10,11 +10,6 @@
 namespace BitProfile{
 
 
-using Ethereum::Connector::Provider;
-using Ethereum::Connector::ContractResult;
-using Ethereum::Connector::ContractArguments;
-using Ethereum::Connector::TransactionObserver;
-
 
 template<class CheckCallback, class Callback>
 class ConfirmCallbackDelegate
@@ -61,6 +56,7 @@ class Contract : public Ethereum::Connector::Contract
 
         std::string cast(ResultTypeTag<std::string>, ContractResult &);
         bool cast(ResultTypeTag<bool>, ContractResult &);
+        uint256_t cast(ResultTypeTag<uint256_t>, ContractResult &);
 
         Provider & getProvider();
 
