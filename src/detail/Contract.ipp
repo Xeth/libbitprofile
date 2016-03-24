@@ -3,7 +3,8 @@ namespace BitProfile{
 
 inline Contract::Contract(Provider &provider, const address_t &address) : 
     Base(provider, address),
-    _observer(provider)
+    _observer(provider),
+    _provider(provider)
 {}
 
 
@@ -34,6 +35,10 @@ inline bool Contract::cast(ResultTypeTag<bool>, ContractResult &result)
     return result.toBool();
 }
 
+inline Provider & Contract::getProvider()
+{
+    return _provider;
+}
 
 template<class CheckCallback>
 bool Contract::executeConfirm(const char *method, const CheckCallback &check)

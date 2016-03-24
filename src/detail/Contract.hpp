@@ -62,11 +62,14 @@ class Contract : public Ethereum::Connector::Contract
         std::string cast(ResultTypeTag<std::string>, ContractResult &);
         bool cast(ResultTypeTag<bool>, ContractResult &);
 
+        Provider & getProvider();
+
         using Base::call;
         using Base::execute;
 
     private:
         TransactionObserver _observer;
+        Provider &_provider;
 };
 
 
