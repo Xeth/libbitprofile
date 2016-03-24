@@ -44,13 +44,13 @@ bool Registrar::unlink(const std::string &name)
 
 bool Registrar::contains(const std::string &name)
 {
-    return call<bool>("contains(string)", CONTRACT_ARGUMENTS(name));
+    return call<bool, Bool_Type>("contains(string)", CONTRACT_ARGUMENTS(name));
 }
 
 
 Profile Registrar::get(const std::string &name)
 {
-    return Profile(getProvider(), call<std::string>("getProfile(string)", CONTRACT_ARGUMENTS(name)));
+    return Profile(getProvider(), call<address_t, Address_Type>("getProfile(string)", CONTRACT_ARGUMENTS(name)));
 }
 
 

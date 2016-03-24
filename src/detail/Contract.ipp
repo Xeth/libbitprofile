@@ -1,6 +1,7 @@
 namespace BitProfile{
 
 
+
 inline Contract::Contract(Provider &provider, const address_t &address) : 
     Base(provider, address),
     _observer(provider),
@@ -10,30 +11,42 @@ inline Contract::Contract(Provider &provider, const address_t &address) :
 }
 
 
-template<class Result>
+template<class Result, DataType type>
 Result Contract::call(const char *method)
 {
     ContractResult result = Base::call(method);
-    return cast(ResultTypeTag<Result>(), result);
+    return cast(ResultTypeTag<Result, type>(), result);
 }
 
 
-template<class Result>
+template<class Result, DataType type>
 Result Contract::call(const char *method, const ContractArguments &args)
 {
     ContractResult result = Base::call(method, args);
-    return cast(ResultTypeTag<Result>(), result);
+    return cast(ResultTypeTag<Result, type>(), result);
 }
 
 
-inline std::string Contract::cast(ResultTypeTag<std::string>, ContractResult &result)
+inline std::string Contract::cast(ResultTypeTag<std::string, String_Type>, ContractResult &result)
 {
     return result.toString();
 }
 
-inline uint256_t Contract::cast(ResultTypeTag<uint256_t>, ContractResult &result)
+inline uint256_t Contract::cast(ResultTypeTag<uint256_t, Uint_Type>, ContractResult &result)
 {
     return result.toUint();
+}
+
+
+inline address_t Contract::cast(ResultTypeTag<address_t, Address_Type>, ContractResult &result)
+{
+    return result.toAddress();
+}
+
+
+inline bool Contract::cast(ResultTypeTag<bool, Bool_Type>, ContractResult &result)
+{
+    return result.toBool();
 }
 
 
@@ -42,11 +55,6 @@ inline bool Contract::isNull() const
     return !getAddress().size();
 }
 
-
-inline bool Contract::cast(ResultTypeTag<bool>, ContractResult &result)
-{
-    return result.toBool();
-}
 
 inline Provider & Contract::getProvider()
 {

@@ -31,7 +31,7 @@ bool Profile::clear(const std::string &key)
 
 std::string Profile::get(const std::string &key)
 {
-    return call<std::string>("get(string)", CONTRACT_ARGUMENTS(key));
+    return call<std::string, String_Type>("get(string)", CONTRACT_ARGUMENTS(key));
 }
 
 
@@ -53,12 +53,12 @@ txid_t Profile::setPermission(const std::string &key, Auth::Permission permissio
 
 bool Profile::authenticate(const address_t &address, Auth::Permission permission)
 {
-    return call<bool>("authenticate(address,uint8,string)", CONTRACT_ARGUMENTS(address, permission, ""));
+    return call<bool, Bool_Type>("authenticate(address,uint8,string)", CONTRACT_ARGUMENTS(address, permission, ""));
 }
 
 address_t Profile::getAuth()
 {
-    return call<std::string>("auth()");
+    return call<std::string, Address_Type>("auth()");
 }
 
 bool Profile::transfer(const address_t &address)

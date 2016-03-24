@@ -33,7 +33,7 @@ bool AddressAuth::remove(const address_t &address)
 
 bool AddressAuth::authenticate(const address_t &address, Auth::Permission permission)
 {
-    return call<bool>("authenticate(address,string,uint8)", CONTRACT_ARGUMENTS(address, "", permission));
+    return call<bool, Bool_Type>("authenticate(address,string,uint8)", CONTRACT_ARGUMENTS(address, "", permission));
 }
 
 

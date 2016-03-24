@@ -21,19 +21,19 @@ MasterRegistrar::MasterRegistrar(Provider &provider, const address_t &address) :
 
 Registrar MasterRegistrar::get(size_t index)
 {
-    return Registrar(getProvider(), call<std::string>("get(uint)", CONTRACT_ARGUMENTS(index)));
+    return Registrar(getProvider(), call<address_t, Address_Type>("get(uint256)", CONTRACT_ARGUMENTS(uint256_t(index))));
 }
 
 
 size_t MasterRegistrar::getSize()
 {
-    return call<uint256_t>("size()").template convert_to<size_t>();
+    return call<uint256_t, Uint_Type>("size()").template convert_to<size_t>();
 }
 
 
 bool MasterRegistrar::isBeta()
 {
-    return call<bool>("beta()");
+    return call<bool, Bool_Type>("beta()");
 }
 
 

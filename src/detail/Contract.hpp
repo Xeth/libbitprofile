@@ -23,16 +23,24 @@ class ConfirmCallbackDelegate
         Callback _callback;
 };
 
+enum DataType{String_Type, Uint_Type, Bool_Type, Int_Type, Address_Type};
+
+
+
 
 class Contract : public Ethereum::Connector::Contract
 {
     public:
-        typedef Ethereum::Connector::Contract Base;
-        template<class Result> class ResultTypeTag{};
+        
 
     public:
        Contract(Provider &, const address_t &address);
 
+        bool isNull() const;
+
+    private:
+        typedef Ethereum::Connector::Contract Base;
+        template<class Result, DataType type> class ResultTypeTag{};
 
     protected:
 
@@ -48,18 +56,18 @@ class Contract : public Ethereum::Connector::Contract
         template<class CheckCallback, class Callback>
         void executeConfirm(const char *, const CheckCallback &, const Callback &);
 
-        template<class Result>
+        template<class Result, DataType type>
         Result call(const char *method);
 
-        template<class Result>
+        template<class Result, DataType type>
         Result call(const char *method, const ContractArguments &);
 
-        std::string cast(ResultTypeTag<std::string>, ContractResult &);
-        bool cast(ResultTypeTag<bool>, ContractResult &);
-        uint256_t cast(ResultTypeTag<uint256_t>, ContractResult &);
+        std::string cast(ResultTypeTag<std::string, String_Type>, ContractResult &);
+        bool cast(ResultTypeTag<bool, Bool_Type>, ContractResult &);
+        uint256_t cast(ResultTypeTag<uint256_t, Uint_Type>, ContractResult &);
+        address_t cast(ResultTypeTag<address_t, Address_Type>, ContractResult &);
 
         Provider & getProvider();
-        bool isNull() const;
 
         using Base::call;
         using Base::execute;
@@ -68,6 +76,9 @@ class Contract : public Ethereum::Connector::Contract
         TransactionObserver _observer;
         Provider &_provider;
 };
+
+
+
 
 
 }
