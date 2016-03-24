@@ -9,21 +9,37 @@ AddressAuth::AddressAuth(Provider &provider, const address_t &address) :
 {}
 
 
-txid_t AddressAuth::set(const address_t &address, Auth::Permission permission)
+bool AddressAuth::set(const address_t &address, Auth::Permission permission)
 {
-    return execute("set(address,uint8)", CONTRACT_ARGUMENTS(address, permission));
+    return executeConfirm
+    (
+        "set(address,uint8)", 
+        CONTRACT_ARGUMENTS(address, permission), 
+        boost::bind(&AddressAuth::checkAuth, this, address, Auth::Edit, true)
+    );
 }
 
 
-txid_t AddressAuth::remove(const address_t &address)
+bool AddressAuth::remove(const address_t &address)
 {
-    return execute("remove(address)", CONTRACT_ARGUMENTS(address));
+    return executeConfirm
+    (
+        "remove(address)", 
+        CONTRACT_ARGUMENTS(address), 
+        boost::bind(&AddressAuth::checkAuth, this, address, Auth::Edit, false)
+    );
 }
 
 
 bool AddressAuth::authenticate(const address_t &address, Auth::Permission permission)
 {
     return call<bool>("authenticate(address,string,uint8)", CONTRACT_ARGUMENTS(address, "", permission));
+}
+
+
+bool AddressAuth::checkAuth(address_t address, Auth::Permission permission, bool active)
+{
+    return active==authenticate(address, permission);
 }
 
 
