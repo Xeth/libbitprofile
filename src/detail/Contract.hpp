@@ -2,6 +2,7 @@
 
 #include "ethrpc/Provider.hpp"
 #include "ethrpc/Contract.hpp"
+#include "ethrpc/TransactionObserver.hpp"
 
 #include "types.hpp"
 
@@ -12,6 +13,20 @@ namespace BitProfile{
 using Ethereum::Connector::Provider;
 using Ethereum::Connector::ContractResult;
 using Ethereum::Connector::ContractArguments;
+using Ethereum::Connector::TransactionObserver;
+
+
+template<class CheckCallback, class Callback>
+class ConfirmCallbackDelegate
+{
+    public:
+        ConfirmCallbackDelegate(const CheckCallback &,  const Callback &);
+        void operator()(bool confirmed);
+
+    private:
+        CheckCallback _check;
+        Callback _callback;
+};
 
 
 class Contract : public Ethereum::Connector::Contract
@@ -26,6 +41,18 @@ class Contract : public Ethereum::Connector::Contract
 
     protected:
 
+        template<class CheckCallback>
+        bool executeConfirm(const char *, const ContractArguments &, const CheckCallback &);
+
+        template<class CheckCallback>
+        bool executeConfirm(const char *, const CheckCallback &);
+
+        template<class CheckCallback, class Callback>
+        void executeConfirm(const char *, const ContractArguments &, const CheckCallback &, const Callback &);
+
+        template<class CheckCallback, class Callback>
+        void executeConfirm(const char *, const CheckCallback &, const Callback &);
+
         template<class Result>
         Result call(const char *method);
 
@@ -38,6 +65,8 @@ class Contract : public Ethereum::Connector::Contract
         using Base::call;
         using Base::execute;
 
+    private:
+        TransactionObserver _observer;
 };
 
 
