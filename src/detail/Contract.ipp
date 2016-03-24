@@ -35,6 +35,12 @@ inline uint256_t Contract::cast(ResultTypeTag<uint256_t>, ContractResult &result
 }
 
 
+bool Contract::isNull() const
+{
+    return !getAddress().size();
+}
+
+
 inline bool Contract::cast(ResultTypeTag<bool>, ContractResult &result)
 {
     return result.toBool();

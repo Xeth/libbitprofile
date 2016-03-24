@@ -59,6 +59,7 @@ class Contract : public Ethereum::Connector::Contract
         uint256_t cast(ResultTypeTag<uint256_t>, ContractResult &);
 
         Provider & getProvider();
+        bool isNull() const;
 
         using Base::call;
         using Base::execute;
