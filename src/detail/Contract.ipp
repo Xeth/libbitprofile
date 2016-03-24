@@ -5,7 +5,9 @@ inline Contract::Contract(Provider &provider, const address_t &address) :
     Base(provider, address),
     _observer(provider),
     _provider(provider)
-{}
+{
+    setGasLimit(uint256_t(4300000));
+}
 
 
 template<class Result>
@@ -35,7 +37,7 @@ inline uint256_t Contract::cast(ResultTypeTag<uint256_t>, ContractResult &result
 }
 
 
-bool Contract::isNull() const
+inline bool Contract::isNull() const
 {
     return !getAddress().size();
 }
