@@ -6,20 +6,18 @@
 
 #include "bitprofile/MasterRegistrar.hpp"
 
+#include "utils/PromptPassword.hpp"
+
 int main(int argc, char **argv)
 {
 
-    if(argc<2)
-    {
-        std::cout<<"usage : make_registrar [password]"<<std::endl;
-        return 1;
-    }
+    std::string password = PromptPassword();
 
     Ethereum::Connector::Provider provider;
     provider.connect();
 
     Ethereum::Connector::Wallet wallet(provider);
-    if(!wallet.unlockAccount(wallet.getCoinBase(), argv[1]))
+    if(!wallet.unlockAccount(wallet.getCoinBase(), password))
     {
         std::cout<<"failed to unlock default account"<<std::endl;
         return 2;
