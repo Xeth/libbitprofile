@@ -9,14 +9,24 @@ Profile::Profile(Provider &provider, const address_t &address) :
 {}
 
 
-txid_t Profile::set(const std::string &key, const std::string &value)
+bool Profile::set(const std::string &key, const std::string &value)
 {
-    return execute("set(string,string,string)", CONTRACT_ARGUMENTS(key, value, ""));
+    return executeConfirm
+    (
+        "set(string,string,string)", 
+        CONTRACT_ARGUMENTS(key, value, ""),
+        boost::bind(&Profile::checkKey, this, key, value)
+    );
 }
 
-txid_t Profile::clear(const std::string &key)
+bool Profile::clear(const std::string &key)
 {
-    return execute("clear(string,string)", CONTRACT_ARGUMENTS(key, ""));
+    return executeConfirm
+    (
+        "clear(string,string)", 
+        CONTRACT_ARGUMENTS(key, ""),
+        boost::bind(&Profile::checkKey, this, key, "")
+    );
 }
 
 std::string Profile::get(const std::string &key)
@@ -30,9 +40,9 @@ address_t Profile::getPaymentAddress()
     return get("payments");
 }
 
-void Profile::setPaymentAddress(const address_t &address)
+bool Profile::setPaymentAddress(const address_t &address)
 {
-    set("payments", address);
+    return set("payments", address);
 }
 
 
@@ -51,14 +61,31 @@ address_t Profile::getAuth()
     return call<std::string>("auth()");
 }
 
-txid_t Profile::transfer(const address_t &address)
+bool Profile::transfer(const address_t &address)
 {
-    return execute("transfer(address,string)", CONTRACT_ARGUMENTS(address, ""));
+    return executeConfirm
+    (
+        "transfer(address,string)",
+        CONTRACT_ARGUMENTS(address, ""),
+        boost::bind(&Profile::checkOwner, this, address)
+    );
 }
 
 txid_t Profile::kill()
 {
     return execute("kill(string)", CONTRACT_ARGUMENTS(""));
+}
+
+
+bool Profile::checkKey(std::string key, std::string value)
+{
+    return get(key) == value;
+}
+
+
+bool Profile::checkOwner(address_t address)
+{
+    return getAuth() == address;
 }
 
 }
