@@ -1,9 +1,13 @@
 find_package(EthRPC REQUIRED)
+find_package(JsonCPP REQUIRED)
+find_package(CryptoPP REQUIRED)
 
+add_definitions(-D__ABI_ENABLED__)
+add_definitions(-DBOOST_PP_VARIADICS)
 
 include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules/CopyHeaders.cmake)
 
-include_directories(${ETHRPC_INCLUDE_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/src)
+include_directories(${JSONCPP_INCLUDE_DIR} ${CRYPTOPP_INCLUDE_DIR} ${ETHRPC_INCLUDE_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/src)
 file(GLOB_RECURSE SOURCES "src/*.cpp")
 
 
