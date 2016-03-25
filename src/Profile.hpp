@@ -3,7 +3,7 @@
 #include "Auth.hpp"
 #include "detail/Contract.hpp"
 #include "detail/ContractFactory.hpp"
-
+#include "detail/ProfileURI.hpp"
 
 namespace BitProfile{
 
@@ -11,7 +11,11 @@ namespace BitProfile{
 class Profile : public Contract
 {
     public:
+        typedef ProfileURI URI;
+
+    public:
         Profile(Provider &provider, const std::string &addres);
+        Profile(Provider &provider, const std::string &addres, const ProfileURI &uri);
 
         bool set(const std::string &key, const std::string &value);
         bool clear(const std::string &key);
@@ -40,9 +44,15 @@ class Profile : public Contract
         txid_t setPermission(const std::string &key, Auth::Permission);
         txid_t kill();
 
+
+        const URI & getURI() const;
+
     private:
         bool checkKey(std::string key, std::string value);
         bool checkOwner(address_t);
+
+    private:
+        URI _uri;
 };
 
 

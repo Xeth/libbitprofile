@@ -9,6 +9,18 @@ Profile::Profile(Provider &provider, const address_t &address) :
 {}
 
 
+Profile::Profile(Provider &provider, const address_t &address, const URI &uri) :
+    Contract(provider, address),
+    _uri(uri)
+{}
+
+
+const Profile::URI & Profile::getURI() const
+{
+    return _uri;
+}
+
+
 bool Profile::set(const std::string &key, const std::string &value)
 {
     return executeConfirm

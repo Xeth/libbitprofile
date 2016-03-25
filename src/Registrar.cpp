@@ -71,7 +71,7 @@ bool Registrar::contains(const std::string &name)
 
 Profile Registrar::get(const std::string &name)
 {
-    return Profile(getProvider(), call<address_t, Address_Type>("getProfile(string)", CONTRACT_ARGUMENTS(name)));
+    return Profile(getProvider(), call<address_t, Address_Type>("getProfile(string)", CONTRACT_ARGUMENTS(name)), ProfileURI(_uri, name));
 }
 
 
