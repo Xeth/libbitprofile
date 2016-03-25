@@ -21,6 +21,12 @@ RegistrarURIList::Iterator RegistrarURIList::end() const
 }
 
 
+RegistrarURIList::Iterator RegistrarURIList::at(size_t index) const
+{
+    return Iterator(index>_size?_size:index, _size);
+}
+
+
 RegistrarURIListIterator::RegistrarURIListIterator(size_t index, size_t limit) :
     _index(index),
     _limit(limit)

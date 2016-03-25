@@ -21,6 +21,7 @@ class RegistrarURIList
 
         Iterator begin() const;
         Iterator end() const;
+        Iterator at(size_t) const;
 
     private:
         size_t _size;
