@@ -3,6 +3,7 @@
 
 #include "detail/Contract.hpp"
 #include "detail/defines.hpp"
+#include "detail/RegistrarURI.hpp"
 
 #include "Registrar.hpp"
 

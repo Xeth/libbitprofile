@@ -1,6 +1,8 @@
 #pragma once 
 
 #include "detail/Contract.hpp"
+#include "detail/RegistrarURI.hpp"
+
 #include "Profile.hpp"
 
 namespace BitProfile{
@@ -9,7 +11,10 @@ namespace BitProfile{
 class Registrar : public Contract
 {
     public:
-        Registrar(Provider &provider, const std::string &addres);
+        typedef RegistrarURI URI;
+
+    public:
+        Registrar(Provider &provider, const std::string &addres, const URI &uri);
 
         bool create(const std::string &);
 
@@ -29,8 +34,13 @@ class Registrar : public Contract
         bool contains(const std::string &);
         Profile get(const std::string &);
 
+        const URI & getURI() const;
+
     private:
         bool checkProfile(std::string, address_t owner, bool active);
+
+    private:
+        URI _uri;
 
 };
 
