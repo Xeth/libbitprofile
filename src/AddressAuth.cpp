@@ -14,7 +14,7 @@ bool AddressAuth::set(const address_t &address, Auth::Permission permission)
     return executeConfirm
     (
         "set(address,uint8)", 
-        CONTRACT_ARGUMENTS(address, permission), 
+        CONTRACT_ARGUMENTS(ABI_ADDRESS(address), permission), 
         boost::bind(&AddressAuth::checkAuth, this, address, Auth::Edit, true)
     );
 }
@@ -25,7 +25,7 @@ bool AddressAuth::remove(const address_t &address)
     return executeConfirm
     (
         "remove(address)", 
-        CONTRACT_ARGUMENTS(address), 
+        CONTRACT_ARGUMENTS(ABI_ADDRESS(address)), 
         boost::bind(&AddressAuth::checkAuth, this, address, Auth::Edit, false)
     );
 }
@@ -33,7 +33,7 @@ bool AddressAuth::remove(const address_t &address)
 
 bool AddressAuth::authenticate(const address_t &address, Auth::Permission permission)
 {
-    return call<bool, Bool_Type>("authenticate(address,string,uint8)", CONTRACT_ARGUMENTS(address, "", permission));
+    return call<bool, Bool_Type>("authenticate(address,string,uint8)", CONTRACT_ARGUMENTS(ABI_ADDRESS(address), "", permission));
 }
 
 

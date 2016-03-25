@@ -53,7 +53,7 @@ txid_t Profile::setPermission(const std::string &key, Auth::Permission permissio
 
 bool Profile::authenticate(const address_t &address, Auth::Permission permission)
 {
-    return call<bool, Bool_Type>("authenticate(address,uint8,string)", CONTRACT_ARGUMENTS(address, permission, ""));
+    return call<bool, Bool_Type>("authenticate(address,string,uint8)", CONTRACT_ARGUMENTS(ABI_ADDRESS(address), "", permission));
 }
 
 address_t Profile::getAuth()
@@ -66,7 +66,7 @@ bool Profile::transfer(const address_t &address)
     return executeConfirm
     (
         "transfer(address,string)",
-        CONTRACT_ARGUMENTS(address, ""),
+        CONTRACT_ARGUMENTS(ABI_ADDRESS(address), ""),
         boost::bind(&Profile::checkOwner, this, address)
     );
 }
