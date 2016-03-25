@@ -14,6 +14,7 @@ class Registrar : public Contract
         typedef RegistrarURI URI;
 
     public:
+        Registrar(Provider &provider, const std::string &address);
         Registrar(Provider &provider, const std::string &addres, const URI &uri);
 
         bool create(const std::string &);

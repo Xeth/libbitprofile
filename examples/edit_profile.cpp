@@ -19,7 +19,7 @@ int main(int argc, char **argv)
     UnlockAccount(provider);
 
     BitProfile::Resolver resolver(provider, BitProfile::MasterRegistrar::Test_Net);
-    BitProfile::Profile profile = resolver.lookup(argv[1]);
+    BitProfile::Profile profile = resolver.lookupProfile(argv[1]);
 
     if(profile.isNull())
     {

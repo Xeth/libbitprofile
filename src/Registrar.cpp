@@ -3,6 +3,10 @@
 
 namespace BitProfile{
 
+Registrar::Registrar(Provider &provider, const address_t &address) :
+    Contract(provider, address)
+{}
+
 
 Registrar::Registrar(Provider &provider, const address_t &address, const URI &uri) :
     Contract(provider, address),
