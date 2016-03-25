@@ -11,6 +11,11 @@ Registrar::Registrar(Provider &provider, const address_t &address) :
 
 bool Registrar::create(const std::string &name)
 {
+    if(contains(name))
+    {
+        return false;
+    }
+
     return executeConfirm
     (
         "register(string,string)",
@@ -22,6 +27,11 @@ bool Registrar::create(const std::string &name)
 
 bool Registrar::link(const std::string &name, const address_t &address)
 {
+    if(contains(name))
+    {
+        return false;
+    }
+
     return executeConfirm
     (
         "link(string,address,string)",
@@ -33,6 +43,10 @@ bool Registrar::link(const std::string &name, const address_t &address)
 
 bool Registrar::unlink(const std::string &name)
 {
+    if(!contains(name))
+    {
+        return true;
+    }
     return executeConfirm
     (
         "unlink(string,string)",
