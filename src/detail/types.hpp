@@ -1,7 +1,14 @@
 #pragma once
 
 #include <string>
+
+#define __ABI_ENABLED__ 1
+
 #include "ethrpc/abi/Arguments.hpp"
+#include "ethrpc/Provider.hpp"
+#include "ethrpc/Contract.hpp"
+#include "ethrpc/TransactionObserver.hpp"
+#include "ethrpc/ContractFactory.hpp"
 
 
 namespace BitProfile{

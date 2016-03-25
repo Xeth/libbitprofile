@@ -1,6 +1,5 @@
 #pragma once
 
-#include "ethrpc/ContractFactory.hpp"
 
 #include "ContractCode.hpp"
 #include "types.hpp"
