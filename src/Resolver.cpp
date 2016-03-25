@@ -18,17 +18,22 @@ Resolver::Resolver(Provider &provider, MasterRegistrar::Network net) :
 
 
 
-Profile Resolver::resolve(const std::string &uri)
+Profile Resolver::lookup(const std::string &uri)
 {
-    size_t offset = uri.find(':');
-    if(uri[0]=='b' && offset==std::string::npos)
+    try
     {
-        size_t index = boost::lexical_cast<size_t>(uri.substr(1, offset));
-        std::string name = uri.substr(offset);
-
-        Registrar registrar = _master.get(index);
-        return registrar.get(name);
+        size_t offset = uri.find(':');
+        if(uri[0]=='b' && offset!=std::string::npos)
+        {
+            size_t index = boost::lexical_cast<size_t>(uri.substr(1, offset-1));
+            std::string name = uri.substr(offset+1);
+            Registrar registrar = _master.get(index);
+            return registrar.get(name);
+        }
     }
+    catch(...)
+    {}
+
     return Profile(_provider, "");
 }
 

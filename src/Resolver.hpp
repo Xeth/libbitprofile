@@ -15,7 +15,7 @@ class Resolver
         Resolver(Provider &);
         Resolver(Provider &, MasterRegistrar::Network);
 
-        Profile resolve(const std::string &name);
+        Profile lookup(const std::string &name);
 
 
     private:
