@@ -4,6 +4,7 @@
 #include "detail/Contract.hpp"
 #include "detail/defines.hpp"
 #include "detail/RegistrarURI.hpp"
+#include "detail/RegistrarURIList.hpp"
 
 #include "Registrar.hpp"
 
@@ -20,6 +21,8 @@ class MasterRegistrar : public Contract
             Main_Net
         };
 
+        typedef RegistrarURIList URIList;
+
     public:
         MasterRegistrar(Provider &);
         MasterRegistrar(Provider &, Network);
@@ -33,6 +36,8 @@ class MasterRegistrar : public Contract
 
         template<class Callback>
         void create(const Callback &);
+
+        URIList getURIList();
 
     private:
         bool checkRegistrar(size_t index);

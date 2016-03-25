@@ -19,6 +19,12 @@ MasterRegistrar::MasterRegistrar(Provider &provider, const address_t &address) :
 {}
 
 
+MasterRegistrar::URIList MasterRegistrar::getURIList()
+{
+    return URIList(getSize());
+}
+
+
 Registrar MasterRegistrar::get(size_t index)
 {
     return Registrar(getProvider(), call<address_t, Address_Type>("get(uint256)", CONTRACT_ARGUMENTS(uint256_t(index))), RegistrarURI(index));
