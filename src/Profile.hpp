@@ -17,32 +17,32 @@ class Profile : public Contract
         Profile(Provider &provider, const std::string &addres);
         Profile(Provider &provider, const std::string &addres, const ProfileURI &uri);
 
-        bool set(const std::string &key, const std::string &value);
-        bool clear(const std::string &key);
+        bool set(const std::string &key, const std::string &value, const std::string &authData = "");
+        bool clear(const std::string &key, const std::string &authData = "");
         std::string get(const std::string &key);
 
         address_t getPaymentAddress();
-        bool setPaymentAddress(const address_t &);
+        bool setPaymentAddress(const address_t &, const std::string &authData = "");
 
         bool authenticate(const address_t &, Auth::Permission);
         address_t getAuth();
 
-        bool transfer(const address_t &);
+        bool transfer(const address_t &, const std::string &authData = "");
 
         template<class Callback>
-        void set(const std::string &key, const std::string &value, const Callback &);
+        void set(const std::string &key, const std::string &value, const std::string &authData, const Callback &);
 
         template<class Callback>
-        void clear(const std::string &key, const Callback &);
+        void clear(const std::string &key, const std::string &authData, const Callback &);
 
         template<class Callback>
-        void setPaymentAddress(const address_t &, const Callback &);
+        void setPaymentAddress(const address_t &, const std::string &authData, const Callback &);
 
         template<class Callback>
-        void transfer(const address_t &, const Callback &);
+        void transfer(const address_t &, const std::string &authData, const Callback &);
 
-        txid_t setPermission(const std::string &key, Auth::Permission);
-        txid_t kill();
+        txid_t setPermission(const std::string &key, Auth::Permission, const std::string &authData="");
+        txid_t kill(const std::string &authData = "");
 
 
         const URI & getURI() const;

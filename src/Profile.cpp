@@ -21,22 +21,22 @@ const Profile::URI & Profile::getURI() const
 }
 
 
-bool Profile::set(const std::string &key, const std::string &value)
+bool Profile::set(const std::string &key, const std::string &value, const std::string &authData)
 {
     return executeConfirm
     (
         "set(string,string,string)", 
-        CONTRACT_ARGUMENTS(key, value, ""),
+        CONTRACT_ARGUMENTS(key, value, authData),
         boost::bind(&Profile::checkKey, this, key, value)
     );
 }
 
-bool Profile::clear(const std::string &key)
+bool Profile::clear(const std::string &key, const std::string &authData)
 {
     return executeConfirm
     (
         "clear(string,string)", 
-        CONTRACT_ARGUMENTS(key, ""),
+        CONTRACT_ARGUMENTS(key, authData),
         boost::bind(&Profile::checkKey, this, key, "")
     );
 }
@@ -52,15 +52,15 @@ address_t Profile::getPaymentAddress()
     return get("payments");
 }
 
-bool Profile::setPaymentAddress(const address_t &address)
+bool Profile::setPaymentAddress(const address_t &address, const std::string &authData)
 {
-    return set("payments", address);
+    return set("payments", address, authData);
 }
 
 
-txid_t Profile::setPermission(const std::string &key, Auth::Permission permission)
+txid_t Profile::setPermission(const std::string &key, Auth::Permission permission, const std::string &authData)
 {
-    return execute("setPermission(string,uint8,string)", CONTRACT_ARGUMENTS(key, permission, ""));
+    return execute("setPermission(string,uint8,string)", CONTRACT_ARGUMENTS(key, permission, authData));
 }
 
 bool Profile::authenticate(const address_t &address, Auth::Permission permission)
@@ -73,19 +73,19 @@ address_t Profile::getAuth()
     return call<std::string, Address_Type>("auth()");
 }
 
-bool Profile::transfer(const address_t &address)
+bool Profile::transfer(const address_t &address, const std::string &authData)
 {
     return executeConfirm
     (
         "transfer(address,string)",
-        CONTRACT_ARGUMENTS(ABI_ADDRESS(address), ""),
+        CONTRACT_ARGUMENTS(ABI_ADDRESS(address), authData),
         boost::bind(&Profile::checkOwner, this, address)
     );
 }
 
-txid_t Profile::kill()
+txid_t Profile::kill(const std::string &authData)
 {
-    return execute("kill(string)", CONTRACT_ARGUMENTS(""));
+    return execute("kill(string)", CONTRACT_ARGUMENTS(authData));
 }
 
 
