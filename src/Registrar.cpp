@@ -20,7 +20,7 @@ const Registrar::URI & Registrar::getURI() const
 }
 
 
-bool Registrar::create(const std::string &name)
+bool Registrar::create(const std::string &name, const std::string &authData)
 {
     if(contains(name))
     {
@@ -30,13 +30,13 @@ bool Registrar::create(const std::string &name)
     return executeConfirm
     (
         "register(string,string)",
-        CONTRACT_ARGUMENTS(name, ""),
+        CONTRACT_ARGUMENTS(name, authData),
         boost::bind(&Registrar::checkProfile, this, name, getSenderAddress(), true)
     );
 }
 
 
-bool Registrar::link(const std::string &name, const address_t &address)
+bool Registrar::link(const std::string &name, const address_t &address, const std::string &authData)
 {
     if(contains(name))
     {
@@ -46,13 +46,13 @@ bool Registrar::link(const std::string &name, const address_t &address)
     return executeConfirm
     (
         "link(string,address,string)",
-        CONTRACT_ARGUMENTS(name, address, ""),
+        CONTRACT_ARGUMENTS(name, address, authData),
         boost::bind(&Registrar::checkProfile, this, name, address, true)
     );
 }
 
 
-bool Registrar::unlink(const std::string &name)
+bool Registrar::unlink(const std::string &name, const std::string &authData)
 {
     if(!contains(name))
     {
@@ -61,7 +61,7 @@ bool Registrar::unlink(const std::string &name)
     return executeConfirm
     (
         "unlink(string,string)",
-        CONTRACT_ARGUMENTS(name, ""),
+        CONTRACT_ARGUMENTS(name, authData),
         boost::bind(&Registrar::checkProfile, this, name, getSenderAddress(), false)
     );
 }
