@@ -11,7 +11,7 @@ Resolver::Resolver(Provider &provider) :
 
 
 
-Resolver::Resolver(Provider &provider, MasterRegistrar::Network net) :
+Resolver::Resolver(Provider &provider, Network net) :
     _master(provider, net),
     _provider(provider)
 {}

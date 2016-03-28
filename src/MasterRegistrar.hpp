@@ -7,6 +7,7 @@
 #include "detail/RegistrarURIList.hpp"
 
 #include "Registrar.hpp"
+#include "Network.hpp"
 
 
 namespace BitProfile{
@@ -15,12 +16,6 @@ namespace BitProfile{
 class MasterRegistrar : public Contract
 {
     public:
-        enum Network
-        {
-            Test_Net,
-            Main_Net
-        };
-
         typedef RegistrarURIList URIList;
 
     public:

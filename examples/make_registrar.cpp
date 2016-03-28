@@ -16,7 +16,7 @@ int main(int argc, char **argv)
     provider.connect();
     UnlockAccount(provider);
 
-    BitProfile::MasterRegistrar registrar(provider, BitProfile::MasterRegistrar::Test_Net);
+    BitProfile::MasterRegistrar registrar(provider, BitProfile::Test_Net);
 
     std::cout<<"creating registrar : "<<registrar.create()<<std::endl;
     std::cout<<"beta : "<<registrar.isBeta()<<std::endl;

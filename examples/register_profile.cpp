@@ -20,7 +20,7 @@ int main(int argc, char **argv)
     provider.connect();
     UnlockAccount(provider);
 
-    BitProfile::MasterRegistrar master(provider, BitProfile::MasterRegistrar::Test_Net);
+    BitProfile::MasterRegistrar master(provider, BitProfile::Test_Net);
 
     std::cout<<"beta : "<<master.isBeta()<<std::endl;
     std::cout<<"master size : "<<master.getSize()<<std::endl;

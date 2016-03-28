@@ -14,7 +14,7 @@ int main(int argc, char **argv)
     Ethereum::Connector::Provider provider;
     provider.connect();
 
-    MasterRegistrar registrar(provider, BitProfile::MasterRegistrar::Test_Net);
+    MasterRegistrar registrar(provider, BitProfile::Test_Net);
     MasterRegistrar::URIList list = registrar.getURIList();
 
     std::cout<<"registrars : "<<std::endl;
