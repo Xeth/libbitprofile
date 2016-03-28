@@ -4,6 +4,7 @@
 #include "Registrar.hpp"
 #include "AddressAuth.hpp"
 #include "AddressAuthKey.hpp"
+#include "ProfileDescriptor.hpp"
 
 #include "detail/types.hpp"
 #include "detail/KeyAdapter.hpp"
@@ -17,6 +18,8 @@ class ProfileAdministrator
     public:
         template<class Key>
         ProfileAdministrator(const Profile &, const Key &);
+
+        ProfileAdministrator(const Profile &, const KeyAdapter &);
 
         bool set(const std::string &key, const std::string &value, const std::string &password);
 
@@ -45,6 +48,8 @@ class ProfileAdministrator
 
         template<class Key, class Callback>
         static void CreateProfile(Registrar &, const std::string &name, const Key &, const std::string &password, const Callback &);
+
+        static ProfileAdministrator FromDescriptor(Provider &, const ProfileDescriptor &);
 
         const Profile & getProfile() const;
         bool isNull() const;

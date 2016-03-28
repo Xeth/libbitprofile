@@ -4,6 +4,12 @@
 namespace BitProfile{
 
 
+ProfileAdministrator::ProfileAdministrator(const Profile &profile, const KeyAdapter &key):
+    _profile(profile),
+    _key(key)
+{}
+
+
 bool ProfileAdministrator::set(const std::string &key, const std::string &value, const std::string &password)
 {
     std::pair<bool, std::string> result = _key.authenticate(_profile.getProvider(), password);
@@ -61,6 +67,11 @@ const Profile & ProfileAdministrator::getProfile() const
 bool ProfileAdministrator::isNull() const
 {
     return _profile.isNull();
+}
+
+ProfileAdministrator ProfileAdministrator::FromDescriptor(Provider &provider, const ProfileDescriptor &descriptor)
+{
+    return ProfileAdministrator(Profile(provider, descriptor.getAddress()), descriptor.getProfileKey());
 }
 
 

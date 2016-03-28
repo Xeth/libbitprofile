@@ -61,5 +61,4 @@ std::string ProfileDescriptor::getAuthAddress() const
 }
 
 
-
 }
