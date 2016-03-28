@@ -31,9 +31,36 @@ bool ProfileAdministrator::changeAuth(const AddressAuth &auth, const std::string
 }
 
 
+bool ProfileAdministrator::link(Registrar &registrar, const std::string &name, const std::string &password)
+{
+    std::pair<bool, std::string> result = _key.authenticate(_profile.getProvider(), password);
+    if(!result.first)
+    {
+        return false;
+    }
+    return registrar.link(name, _profile.getAddress(), result.second);
+}
+
+
+bool ProfileAdministrator::unlink(Registrar &registrar, const std::string &password)
+{
+    std::pair<bool, std::string> result = _key.authenticate(_profile.getProvider(), password);
+    if(!result.first)
+    {
+        return false;
+    }
+    return registrar.unlink(_profile.getAddress(), result.second);
+}
+
+
 const Profile & ProfileAdministrator::getProfile() const
 {
     return _profile;
+}
+
+bool ProfileAdministrator::isNull() const
+{
+    return _profile.isNull();
 }
 
 

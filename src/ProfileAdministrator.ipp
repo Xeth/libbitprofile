@@ -15,6 +15,20 @@ class ProfileAdministrator::ChangeAuthCallback
 };
 
 
+template<class Callback, class Key>
+class ProfileAdministrator::CreateProfileCallback
+{
+    public:
+        CreateProfileCallback(ProfileAdministrator *, const Key &, const Callback &);
+        void operator()(const Profile &);
+
+    private:
+        ProfileAdministrator *_admin;
+        Key _key;
+        Callback _callback;
+};
+
+
 template<class Key>
 ProfileAdministrator::ProfileAdministrator(const Profile &profile, const Key &key) : 
     _profile(profile),
@@ -38,6 +52,19 @@ void ProfileAdministrator::set(const std::string &key, const std::string &value,
     }
 }
 
+
+template<class Key>
+ProfileAdministrator ProfileAdministrator::CreateProfile(Registrar &registrar, const std::string &name, const Key &key, const std::string &password)
+{
+    return ProfileAdministrator(registrar.create(name, key.authenticate(registrar.getProvider(), password)), key);
+}
+
+
+template<class Key, class Callback>
+void ProfileAdministrator::CreateProfile(Registrar &registrar, const std::string &name, const Key &key, const std::string &password, const Callback &callback)
+{
+    registrar.create(name, key.authenticate(registrar.getProvider(), password), CreateProfileCallback<Key>(this, key, callback));
+}
 
 
 template<class Callback>
@@ -79,5 +106,18 @@ void ProfileAdministrator::ChangeAuthCallback<Callback, Key>::operator()(bool re
 }
 
 
+template<class Callback, class Key>
+ProfileAdministrator::CreateProfileCallback<Callback, Key>::CreateProfileCallback(ProfileAdministrator *admin, const Key &key, const Callback &callback) :
+    _admin(admin),
+    _key(key),
+    _callback(callback)
+{}
+
+
+template<class Callback, class Key>
+void ProfileAdministrator::CreateProfileCallback<Callback, Key>::operator()(const Profile &profile)
+{
+    _callback(ProfileAdministrator(profile, _key));
+}
 
 }

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Profile.hpp"
+#include "Registrar.hpp"
 #include "AddressAuth.hpp"
 #include "AddressAuthKey.hpp"
 
@@ -29,11 +30,31 @@ class ProfileAdministrator
         void changeAuth(const AddressAuth &, const std::string &password, const Callback &);
 
 
+        bool link(Registrar &, const std::string &name, const std::string &password);
+        bool unlink(Registrar &, const std::string &password);
+
+        template<class Callback>
+        void link(Registrar &, const std::string &name, const std::string &password, const Callback &);
+
+        template<class Callback>
+        void unlink(Registrar &, const std::string &password, const Callback &);
+
+
+        template<class Key>
+        static ProfileAdministrator CreateProfile(Registrar &, const std::string &name, const Key &, const std::string &password);
+
+        template<class Key, class Callback>
+        static void CreateProfile(Registrar &, const std::string &name, const Key &, const std::string &password, const Callback &);
+
         const Profile & getProfile() const;
+        bool isNull() const;
 
     private:
-        template<class Callback>
+        template<class Callback, class Key>
         class ChangeAuthCallback;
+
+        template<class Callback, class Key>
+        class CreateProfileCallback;
 
     private:
         Profile _profile;
