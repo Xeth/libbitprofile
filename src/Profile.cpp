@@ -68,7 +68,7 @@ bool Profile::authenticate(const address_t &address, Auth::Permission permission
     return call<bool, Bool_Type>("authenticate(address,string,uint8)", CONTRACT_ARGUMENTS(ABI_ADDRESS(address), "", permission));
 }
 
-address_t Profile::getAuth()
+address_t Profile::getAuth() const
 {
     return call<std::string, Address_Type>("auth()");
 }

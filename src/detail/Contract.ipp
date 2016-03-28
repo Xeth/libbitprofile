@@ -12,7 +12,7 @@ inline Contract::Contract(Provider &provider, const address_t &address) :
 
 
 template<class Result, DataType type>
-Result Contract::call(const char *method)
+Result Contract::call(const char *method) const
 {
     ContractResult result = Base::call(method);
     return cast(ResultTypeTag<Result, type>(), result);
@@ -20,31 +20,31 @@ Result Contract::call(const char *method)
 
 
 template<class Result, DataType type>
-Result Contract::call(const char *method, const ContractArguments &args)
+Result Contract::call(const char *method, const ContractArguments &args) const
 {
     ContractResult result = Base::call(method, args);
     return cast(ResultTypeTag<Result, type>(), result);
 }
 
 
-inline std::string Contract::cast(ResultTypeTag<std::string, String_Type>, ContractResult &result)
+inline std::string Contract::cast(ResultTypeTag<std::string, String_Type>, ContractResult &result) const
 {
     return result.toString();
 }
 
-inline uint256_t Contract::cast(ResultTypeTag<uint256_t, Uint_Type>, ContractResult &result)
+inline uint256_t Contract::cast(ResultTypeTag<uint256_t, Uint_Type>, ContractResult &result) const
 {
     return result.toUint();
 }
 
 
-inline address_t Contract::cast(ResultTypeTag<address_t, Address_Type>, ContractResult &result)
+inline address_t Contract::cast(ResultTypeTag<address_t, Address_Type>, ContractResult &result) const
 {
     return result.toAddress();
 }
 
 
-inline bool Contract::cast(ResultTypeTag<bool, Bool_Type>, ContractResult &result)
+inline bool Contract::cast(ResultTypeTag<bool, Bool_Type>, ContractResult &result) const
 {
     return result.toBool();
 }

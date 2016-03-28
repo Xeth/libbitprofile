@@ -25,7 +25,7 @@ class Profile : public Contract
         bool setPaymentAddress(const address_t &, const std::string &authData = "");
 
         bool authenticate(const address_t &, Auth::Permission);
-        address_t getAuth();
+        address_t getAuth() const;
 
         bool transfer(const address_t &, const std::string &authData = "");
 

@@ -54,15 +54,15 @@ class Contract : public Ethereum::Connector::Contract
         void executeConfirm(const char *, const CheckCallback &, const Callback &);
 
         template<class Result, DataType type>
-        Result call(const char *method);
+        Result call(const char *method) const;
 
         template<class Result, DataType type>
-        Result call(const char *method, const ContractArguments &);
+        Result call(const char *method, const ContractArguments &) const;
 
-        std::string cast(ResultTypeTag<std::string, String_Type>, ContractResult &);
-        bool cast(ResultTypeTag<bool, Bool_Type>, ContractResult &);
-        uint256_t cast(ResultTypeTag<uint256_t, Uint_Type>, ContractResult &);
-        address_t cast(ResultTypeTag<address_t, Address_Type>, ContractResult &);
+        std::string cast(ResultTypeTag<std::string, String_Type>, ContractResult &) const;
+        bool cast(ResultTypeTag<bool, Bool_Type>, ContractResult &) const;
+        uint256_t cast(ResultTypeTag<uint256_t, Uint_Type>, ContractResult &) const;
+        address_t cast(ResultTypeTag<address_t, Address_Type>, ContractResult &) const;
 
 
         using Base::call;
