@@ -33,6 +33,7 @@ class Contract : public Ethereum::Connector::Contract
        Contract(Provider &, const address_t &address);
 
         bool isNull() const;
+        Provider & getProvider();
 
     private:
         typedef Ethereum::Connector::Contract Base;
@@ -63,7 +64,6 @@ class Contract : public Ethereum::Connector::Contract
         uint256_t cast(ResultTypeTag<uint256_t, Uint_Type>, ContractResult &);
         address_t cast(ResultTypeTag<address_t, Address_Type>, ContractResult &);
 
-        Provider & getProvider();
 
         using Base::call;
         using Base::execute;
