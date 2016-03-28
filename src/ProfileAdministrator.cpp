@@ -10,6 +10,11 @@ ProfileAdministrator::ProfileAdministrator(const Profile &profile, const KeyAdap
 {}
 
 
+const KeyAdapter & ProfileAdministrator::getKey() const
+{
+    return _key;
+}
+
 bool ProfileAdministrator::set(const std::string &key, const std::string &value, const std::string &password)
 {
     std::pair<bool, std::string> result = _key.authenticate(_profile.getProvider(), password);

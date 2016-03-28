@@ -6,6 +6,7 @@ class KeyAdapter::KeyHolder
 {
     public:
         virtual const address_t & getAddress() const = 0;
+        virtual std::string getTypeName() const = 0;
         virtual std::pair<bool, std::string> authenticate(Provider &, const std::string &password) = 0;
 };
 
@@ -16,6 +17,7 @@ class KeyAdapter::KeyHolderImpl : public KeyAdapter::KeyHolder
     public:
         KeyHolderImpl(const Key &);
 
+        std::string getTypeName() const;
         const address_t & getAddress() const;
         std::pair<bool, std::string> authenticate(Provider &, const std::string &password);
 
@@ -41,6 +43,13 @@ template<class Key>
 std::pair<bool, std::string> KeyAdapter::KeyHolderImpl<Key>::authenticate(Provider &provider, const std::string &password)
 {
     return _key.authenticate(provider, password);
+}
+
+
+template<class Key>
+std::string KeyAdapter::KeyHolderImpl<Key>::getTypeName() const
+{
+    return KeyTypeName<Key>();
 }
 
 

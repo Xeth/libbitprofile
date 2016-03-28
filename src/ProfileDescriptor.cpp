@@ -1,5 +1,5 @@
 #include "ProfileDescriptor.hpp"
-
+#include "ProfileAdministrator.hpp"
 
 namespace BitProfile{
 
@@ -9,14 +9,33 @@ ProfileDescriptor::ProfileDescriptor(const Json::Value &value) :
 {}
 
 
-Json::Value ProfileDescriptor::serializeKey(const Profile &profile, const AddressAuthKey &key)
+ProfileDescriptor::ProfileDescriptor(const ProfileAdministrator &admin)
+{
+    parseProfileData(admin.getProfile());
+    parseKeyData(admin.getProfile(), admin.getKey(), admin.getKey().getTypeName());
+}
+
+void ProfileDescriptor::parseProfileData(const Profile &profile)
+{
+    const Profile::URI & uri = profile.getURI();
+    _data["uri"] = uri.toString();
+    _data["name"] = uri.getName();
+    _data["context"] = uri.getContext();
+}
+
+void ProfileDescriptor::parseKeyData(const Profile &profile, const AddressAuthKey &key)
+{
+    parseKeyData(profile, key, KeyTypeName<AddressAuthKey>());
+}
+
+template<class Key>
+void ProfileDescriptor::parseKeyData(const Profile &profile, const Key &key, const std::string &keyType)
 {
     Json::Value data;
-    data["type"] = "address";
+    data["type"] = keyType;
     data["address"] = key.getAddress();
     data["contract"] = profile.getAuth();
-    data["secret"] = "";
-    return data;
+    _data["auth"] = data;
 }
 
 KeyAdapter ProfileDescriptor::getProfileKey() const

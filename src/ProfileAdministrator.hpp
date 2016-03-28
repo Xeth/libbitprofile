@@ -59,6 +59,7 @@ class ProfileAdministrator
 
         static ProfileAdministrator FromDescriptor(Provider &, const ProfileDescriptor &);
 
+        const KeyAdapter & getKey() const;
         const Profile & getProfile() const;
         bool isNull() const;
 

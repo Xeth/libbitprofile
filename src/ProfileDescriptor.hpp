@@ -9,11 +9,14 @@
 #include "Profile.hpp"
 #include "AddressAuthKey.hpp"
 #include "detail/KeyAdapter.hpp"
+#include "detail/KeyTypeName.hpp"
 #include "AddressAuthKey.hpp"
 
 
 namespace BitProfile{
 
+
+class ProfileAdministrator;
 
 class ProfileDescriptor
 {
@@ -22,6 +25,7 @@ class ProfileDescriptor
         template<class Key>
         ProfileDescriptor(const Profile &, const Key &);
 
+        ProfileDescriptor(const ProfileAdministrator &);
         ProfileDescriptor(const Json::Value &);
 
         std::string getURI() const;
@@ -37,7 +41,11 @@ class ProfileDescriptor
         const Json::Value & toJSON() const;
 
     private:
-        Json::Value serializeKey(const Profile &, const AddressAuthKey &);
+        void parseProfileData(const Profile &);
+        void parseKeyData(const Profile &, const AddressAuthKey &);
+
+        template<class Key>
+        void parseKeyData(const Profile &profile, const Key &key, const std::string &keyType);
 
     private:
         Json::Value _data;

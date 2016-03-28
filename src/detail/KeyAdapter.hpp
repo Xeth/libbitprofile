@@ -2,7 +2,7 @@
 
 #include <boost/shared_ptr.hpp>
 #include "types.hpp"
-
+#include "KeyTypeName.hpp"
 
 namespace BitProfile{
 
@@ -16,6 +16,7 @@ class KeyAdapter
         const address_t & getAddress() const;
         std::pair<bool, std::string> authenticate(Provider &, const std::string &password);
 
+        std::string getTypeName() const;
 
         template<class Key>
         void reset(const Key &);

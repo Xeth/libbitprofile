@@ -16,7 +16,10 @@ std::pair<bool, std::string> KeyAdapter::authenticate(Provider &provider, const 
 }
 
 
-
+std::string KeyAdapter::getTypeName() const
+{
+    return _holder->getTypeName();
+}
 
 
 

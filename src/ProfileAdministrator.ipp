@@ -19,11 +19,12 @@ template<class Callback, class Key>
 class ProfileAdministrator::CreateProfileCallback
 {
     public:
-        CreateProfileCallback(ProfileAdministrator *, const Key &, const Callback &);
-        void operator()(const Profile &);
+        CreateProfileCallback(Registrar &, const std::string &name, const Key &, const Callback &);
+        void operator()(bool);
 
     private:
-        ProfileAdministrator *_admin;
+        Registrar &_registrar;
+        std::string _name;
         Key _key;
         Callback _callback;
 };
@@ -66,14 +67,18 @@ void ProfileAdministrator::set(const std::string &key, const std::string &value,
 template<class Key>
 ProfileAdministrator ProfileAdministrator::CreateProfile(Registrar &registrar, const std::string &name, const Key &key, const std::string &password)
 {
-    return ProfileAdministrator(registrar.create(name, key.authenticate(registrar.getProvider(), password)), key);
+    if(registrar.create(name, key.getAddress(), key.authenticate(registrar.getProvider(), password))
+    {
+        return ProfileAdministrator(registrar.get(name), key);
+    }
+    return ProfileAdministrator(Profile(regisrar.getProvider(), ""), key);
 }
 
 
 template<class Key, class Callback>
 void ProfileAdministrator::CreateProfile(Registrar &registrar, const std::string &name, const Key &key, const std::string &password, const Callback &callback)
 {
-    registrar.create(name, key.authenticate(registrar.getProvider(), password), CreateProfileCallback<Key>(this, key, callback));
+    registrar.create(name, key.authenticate(registrar.getProvider(), password), CreateProfileCallback<Key>(registrar, name, key, callback));
 }
 
 
@@ -117,17 +122,19 @@ void ProfileAdministrator::ChangeAuthCallback<Callback, Key>::operator()(bool re
 
 
 template<class Callback, class Key>
-ProfileAdministrator::CreateProfileCallback<Callback, Key>::CreateProfileCallback(ProfileAdministrator *admin, const Key &key, const Callback &callback) :
-    _admin(admin),
+ProfileAdministrator::CreateProfileCallback<Callback, Key>::CreateProfileCallback(Registrar &registrar, const std::string &name, const Key &key, const Callback &callback) :
+    _registrar(registrar),
+    _name(name),
     _key(key),
     _callback(callback)
 {}
 
 
 template<class Callback, class Key>
-void ProfileAdministrator::CreateProfileCallback<Callback, Key>::operator()(const Profile &profile)
+void ProfileAdministrator::CreateProfileCallback<Callback, Key>::operator()(bool result)
 {
-    _callback(ProfileAdministrator(profile, _key));
+    //return null profile if registration failed
+    _callback(ProfileAdministrator(result? registrar.get(_name): Profile(registrar.getProvider(), ""), _key));
 }
 
 }
