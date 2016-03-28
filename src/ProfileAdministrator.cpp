@@ -75,4 +75,15 @@ ProfileAdministrator ProfileAdministrator::FromDescriptor(Provider &provider, co
 }
 
 
+ProfileAdministrator ProfileAdministrator::CreateProfile(Registrar &regisrar, const std::string &name, const address_t &address, const std::string &password)
+{
+    return CreateProfile(regisrar, name, AddressAuthKey(address), password);
+}
+
+
+ProfileAdministrator ProfileAdministrator::CreateProfile(Registrar &regisrar, const std::string &name, const std::string &password)
+{
+    return CreateProfile(regisrar, name, AddressAuthKey(regisrar.getSenderAddress()), password);
+}
+
 }

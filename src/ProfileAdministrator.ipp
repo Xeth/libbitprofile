@@ -36,7 +36,17 @@ ProfileAdministrator::ProfileAdministrator(const Profile &profile, const Key &ke
 {}
 
 
+template<class Callback>
+void ProfileAdministrator::CreateProfile(Registrar &regisrar, const std::string &name, const std::string &password, const Callback &callback)
+{
+    CreateProfile(regisrar, name, AddressAuthKey(regisrar.getSenderAddress()), password, callback);
+}
 
+template<class Callback>
+void ProfileAdministrator::CreateProfile(Registrar &regisrar, const std::string &name, const address_t &address, const std::string &password, const Callback &callback)
+{
+    CreateProfile(registrar, name, AddressAuthKey(address), password, callback);
+}
 
 template<class Callback>
 void ProfileAdministrator::set(const std::string &key, const std::string &value, const std::string &password, const Callback &callback)

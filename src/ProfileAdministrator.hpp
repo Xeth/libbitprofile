@@ -42,6 +42,14 @@ class ProfileAdministrator
         template<class Callback>
         void unlink(Registrar &, const std::string &password, const Callback &);
 
+        static ProfileAdministrator CreateProfile(Registrar &, const std::string &name, const std::string &password);
+        static ProfileAdministrator CreateProfile(Registrar &, const std::string &name, const address_t &, const std::string &password);
+
+        template<class Callback>
+        static void CreateProfile(Registrar &, const std::string &name, const std::string &password, const Callback &);
+
+        template<class Callback>
+        static void CreateProfile(Registrar &, const std::string &name, const address_t &, const std::string &password, const Callback &);
 
         template<class Key>
         static ProfileAdministrator CreateProfile(Registrar &, const std::string &name, const Key &, const std::string &password);
