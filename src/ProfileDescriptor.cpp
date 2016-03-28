@@ -31,6 +31,11 @@ KeyAdapter ProfileDescriptor::getProfileKey() const
 
 }
 
+const Json::Value & ProfileDescriptor::toJSON() const
+{
+    return _data;
+}
+
 std::string ProfileDescriptor::getURI() const
 {
     return _data["uri"].asString();
@@ -62,3 +67,13 @@ std::string ProfileDescriptor::getAuthAddress() const
 
 
 }
+
+
+std::ostream & operator << (std::ostream &os, const BitProfile::ProfileDescriptor &descriptor)
+{
+    Json::FastWriter parser;
+    os << parser.write(descriptor.toJSON());
+    return os;
+}
+
+

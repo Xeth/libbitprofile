@@ -1,6 +1,10 @@
 #pragma once 
 
+
+#include <ostream>
 #include <json/value.h>
+#include <json/writer.h>
+
 
 #include "Profile.hpp"
 #include "AddressAuthKey.hpp"
@@ -30,6 +34,8 @@ class ProfileDescriptor
 
         KeyAdapter getProfileKey() const;
 
+        const Json::Value & toJSON() const;
+
     private:
         Json::Value serializeKey(const Profile &, const AddressAuthKey &);
 
@@ -38,7 +44,9 @@ class ProfileDescriptor
 };
 
 
-
 }
+
+
+std::ostream & operator << (std::ostream &, const BitProfile::ProfileDescriptor &);
 
 #include "ProfileDescriptor.ipp"
