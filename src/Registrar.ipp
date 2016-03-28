@@ -1,8 +1,13 @@
 namespace BitProfile{
 
-
 template<class Callback>
 void Registrar::create(const std::string &name, const std::string &authData, const Callback &callback)
+{
+    create(name, getSenderAddress(), authData, callback);
+}
+
+template<class Callback>
+void Registrar::create(const std::string &name, const address_t &address, const std::string &authData, const Callback &callback)
 {
     if(contains(name))
     {
@@ -14,7 +19,7 @@ void Registrar::create(const std::string &name, const std::string &authData, con
         (
             "register(string,string)",
             CONTRACT_ARGUMENTS(name, authData),
-            boost::bind(&Registrar::checkProfile, this, name, getSenderAddress(), true),
+            boost::bind(&Registrar::checkProfile, this, name, address.size()?address:getSenderAddress(), true),
             callback
         );
     }

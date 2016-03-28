@@ -22,6 +22,11 @@ const Registrar::URI & Registrar::getURI() const
 
 bool Registrar::create(const std::string &name, const std::string &authData)
 {
+    return create(name, getSenderAddress(), authData);
+}
+
+bool Registrar::create(const std::string &name, const address_t &address, const std::string &authData)
+{
     if(contains(name))
     {
         return false;
@@ -31,7 +36,7 @@ bool Registrar::create(const std::string &name, const std::string &authData)
     (
         "register(string,string)",
         CONTRACT_ARGUMENTS(name, authData),
-        boost::bind(&Registrar::checkProfile, this, name, getSenderAddress(), true)
+        boost::bind(&Registrar::checkProfile, this, name, address.size()?address:getSenderAddress(), true)
     );
 }
 

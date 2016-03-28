@@ -22,6 +22,11 @@ class Registrar : public Contract
         template<class Callback>
         void create(const std::string &name, const std::string &authData, const Callback &);
 
+        bool create(const std::string &name, const address_t &address, const std::string &authData="");
+
+        template<class Callback>
+        void create(const std::string &name, const address_t &address, const std::string &authData, const Callback &);
+
         bool link(const std::string &, const address_t &address, const std::string &authData="");
 
         template<class Callback>
