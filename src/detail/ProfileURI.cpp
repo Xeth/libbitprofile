@@ -21,6 +21,17 @@ bool ProfileURI::operator == (const ProfileURI &uri) const
 }
 
 
+const std::string & ProfileURI::getName() const
+{
+    return _name;
+}
+
+
+std::string ProfileURI::getContext() const
+{
+    return _registrar.toString();
+}
+
 std::string ProfileURI::toString() const
 {
     std::string result;
