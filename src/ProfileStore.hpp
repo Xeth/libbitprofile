@@ -32,6 +32,7 @@ class ProfileStore
         Iterator end() const;
 
     private:
+        void createIfNotExists();
         fs::path getDefaultPath(Network) const;
         fs::path makeProfilePath(const std::string &name) const;
 

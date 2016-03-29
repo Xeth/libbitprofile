@@ -6,22 +6,30 @@ namespace BitProfile{
 
 ProfileStore::ProfileStore() :
     _path(getDefaultPath(Main_Net))
-{}
+{
+    createIfNotExists();
+}
 
 
 ProfileStore::ProfileStore(const char *path) :
     _path(fs::absolute(path))
-{}
+{
+    createIfNotExists();
+}
 
 
 ProfileStore::ProfileStore(Network net) :
     _path(getDefaultPath(net))
-{}
+{
+    createIfNotExists();
+}
 
 
 ProfileStore::ProfileStore(const fs::path &path) :
     _path(path)
-{}
+{
+    createIfNotExists();
+}
 
 
 fs::path ProfileStore::getDefaultPath(Network net) const
@@ -56,6 +64,10 @@ fs::path ProfileStore::getDefaultPath(Network net) const
     return path;
 }
 
+void ProfileStore::createIfNotExists()
+{
+    boost::filesystem::create_directories(_path);
+}
 
 ProfileStore::Iterator ProfileStore::begin() const
 {
