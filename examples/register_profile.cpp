@@ -5,8 +5,9 @@
 #include "ethrpc/Wallet.hpp"
 
 #include "bitprofile/MasterRegistrar.hpp"
-
-#include "utils/UnlockAccount.hpp"
+#include "bitprofile/ProfileAdministrator.hpp"
+#include "bitprofile/ProfileStore.hpp"
+#include "utils/PromptPassword.hpp"
 
 int main(int argc, char **argv)
 {
@@ -18,7 +19,7 @@ int main(int argc, char **argv)
 
     Ethereum::Connector::Provider provider;
     provider.connect();
-    UnlockAccount(provider);
+    std::string password = PromptPassword();
 
     BitProfile::MasterRegistrar master(provider, BitProfile::Test_Net);
 
@@ -32,19 +33,26 @@ int main(int argc, char **argv)
         return 2;
     }
 
-    if(!regisrar.create(argv[2]))
+    BitProfile::ProfileAdministrator profile = BitProfile::ProfileAdministrator::CreateProfile(regisrar, argv[2], password);
+
+    if(profile.isNull())
     {
         std::cout<<"failed to register profile"<<std::endl;
     }
     else
     {
         std::cout<<"profile registered"<<std::endl;
+        BitProfile::ProfileStore store;
+        if(store.insert(BitProfile::ProfileDescriptor(profile)))
+        {
+            std::cout<<"profile saved"<<std::endl;
+        }
+        else
+        {
+            std::cout<<"failed to save profile"<<std::endl;
+        }
     }
 
-    BitProfile::Profile profile = regisrar.get(argv[2]);
-
-    std::cout<<"profile registered : "<<profile.getAddress()<<std::endl;
-    std::cout<<"name : "<<argv[2]<<std::endl;
 
     return 0;
 }

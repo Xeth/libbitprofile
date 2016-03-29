@@ -1,6 +1,6 @@
 find_package(JsonCPP REQUIRED)
 find_package(CryptoPP REQUIRED)
-find_package(Boost COMPONENTS system thread date_time chrono regex REQUIRED)
+find_package(Boost COMPONENTS system thread filesystem date_time chrono regex REQUIRED)
 find_package(EthRPC REQUIRED)
 
 
@@ -27,6 +27,7 @@ foreach(EXAMPLE ${EXAMPLES})
         ${Boost_REGEX_LIBRARY}
         ${Boost_SYSTEM_LIBRARY}
         ${Boost_THREAD_LIBRARY}
+        ${Boost_FILESYSTEM_LIBRARY}
         ${CRYPTOPP_LIBRARY}
         ${CMAKE_THREAD_LIBS_INIT}
     )
