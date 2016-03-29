@@ -21,12 +21,14 @@ void ProfileDescriptor::parseProfileData(const Profile &profile)
     _data["uri"] = uri.toString();
     _data["name"] = uri.getName();
     _data["context"] = uri.getContext();
+    _data["contract"] = profile.getAddress();
 }
 
 void ProfileDescriptor::parseKeyData(const Profile &profile, const AddressAuthKey &key)
 {
     parseKeyData(profile, key, KeyTypeName<AddressAuthKey>());
 }
+
 
 template<class Key>
 void ProfileDescriptor::parseKeyData(const Profile &profile, const Key &key, const std::string &keyType)
@@ -37,6 +39,7 @@ void ProfileDescriptor::parseKeyData(const Profile &profile, const Key &key, con
     data["contract"] = profile.getAuth();
     _data["auth"] = data;
 }
+
 
 KeyAdapter ProfileDescriptor::getProfileKey() const
 {
@@ -53,6 +56,11 @@ KeyAdapter ProfileDescriptor::getProfileKey() const
 const Json::Value & ProfileDescriptor::toJSON() const
 {
     return _data;
+}
+
+address_t ProfileDescriptor::getAddress() const
+{
+    return _data["contract"].asString();
 }
 
 std::string ProfileDescriptor::getURI() const
