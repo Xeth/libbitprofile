@@ -38,13 +38,13 @@ ProfileAdministrator::ProfileAdministrator(const Profile &profile, const Key &ke
 
 
 template<class Callback>
-void ProfileAdministrator::CreateProfile(Registrar &regisrar, const std::string &name, const std::string &password, const Callback &callback)
+void ProfileAdministrator::CreateProfile(Registrar &registrar, const std::string &name, const std::string &password, const Callback &callback)
 {
-    CreateProfile(regisrar, name, AddressAuthKey(regisrar.getSenderAddress()), password, callback);
+    CreateProfile(registrar, name, AddressAuthKey(registrar.getSenderAddress()), password, callback);
 }
 
 template<class Callback>
-void ProfileAdministrator::CreateProfile(Registrar &regisrar, const std::string &name, const address_t &address, const std::string &password, const Callback &callback)
+void ProfileAdministrator::CreateProfile(Registrar &registrar, const std::string &name, const address_t &address, const std::string &password, const Callback &callback)
 {
     CreateProfile(registrar, name, AddressAuthKey(address), password, callback);
 }
@@ -67,23 +67,23 @@ void ProfileAdministrator::set(const std::string &key, const std::string &value,
 template<class Key>
 ProfileAdministrator ProfileAdministrator::CreateProfile(Registrar &registrar, const std::string &name, const Key &key, const std::string &password)
 {
-    if(registrar.create(name, key.getAddress(), key.authenticate(registrar.getProvider(), password))
+    if(registrar.create(name, key.getAddress(), key.authenticate(registrar.getProvider(), password).second))
     {
         return ProfileAdministrator(registrar.get(name), key);
     }
-    return ProfileAdministrator(Profile(regisrar.getProvider(), ""), key);
+    return ProfileAdministrator(Profile(registrar.getProvider(), ""), key);
 }
 
 
 template<class Key, class Callback>
 void ProfileAdministrator::CreateProfile(Registrar &registrar, const std::string &name, const Key &key, const std::string &password, const Callback &callback)
 {
-    registrar.create(name, key.authenticate(registrar.getProvider(), password), CreateProfileCallback<Key>(registrar, name, key, callback));
+    registrar.create(name, key.authenticate(registrar.getProvider(), password), CreateProfileCallback<Key, Callback>(registrar, name, key, callback));
 }
 
 
 template<class Callback>
-void ProfileAdministrator::changeAuth(const AddressAuth &, const std::string &password, const Callback &callback)
+void ProfileAdministrator::changeAuth(const AddressAuth &auth, const std::string &password, const Callback &callback)
 {
     std::pair<bool, std::string> result = _key.authenticate(_profile.getProvider(), password);
     if(!result.first)
@@ -92,7 +92,7 @@ void ProfileAdministrator::changeAuth(const AddressAuth &, const std::string &pa
     }
     else
     {
-        _profile.transfer(auth.getAddress(), result.second, ChangeAuthCallback(this, AddressAuthKey(auth.getSenderAddress()), callback));
+        _profile.transfer(auth.getAddress(), result.second, ChangeAuthCallback<Callback, AddressAuthKey>(this, AddressAuthKey(auth.getSenderAddress()), callback));
     }
 
 }
@@ -111,7 +111,7 @@ void ProfileAdministrator::ChangeAuthCallback<Callback, Key>::operator()(bool re
 {
     if(result)
     {
-        _admin->key.reset(_key);
+        _admin->_key.reset(_key);
         _callback(true);
     }
     else
@@ -134,7 +134,7 @@ template<class Callback, class Key>
 void ProfileAdministrator::CreateProfileCallback<Callback, Key>::operator()(bool result)
 {
     //return null profile if registration failed
-    _callback(ProfileAdministrator(result? registrar.get(_name): Profile(registrar.getProvider(), ""), _key));
+    _callback(ProfileAdministrator(result? _registrar.get(_name): Profile(_registrar.getProvider(), ""), _key));
 }
 
 }

@@ -77,3 +77,5 @@ class ProfileAdministrator
 
 
 }
+
+#include "ProfileAdministrator.ipp"
