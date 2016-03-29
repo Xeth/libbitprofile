@@ -113,6 +113,11 @@ bool ProfileStore::insert(const ProfileDescriptor &descriptor)
 fs::path ProfileStore::makeProfilePath(const std::string &uri) const
 {
     std::string filename = uri;
+    size_t pos = filename.find(':');
+    if(pos!=std::string::npos)
+    {
+        filename.replace(pos, 1, 1, '_');
+    }
     filename += ".bp";
     fs::path path = _path;
     path /= filename;
