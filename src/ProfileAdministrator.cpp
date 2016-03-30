@@ -75,7 +75,7 @@ bool ProfileAdministrator::unlink(Registrar &registrar, const std::string &passw
 }
 
 
-bool ProfileAdministrator::rename(Registrar &registrar, const std::string &name, const std::string &password)
+bool ProfileAdministrator::move(Registrar &registrar, const std::string &name, const std::string &password)
 {
     std::pair<bool, std::string> result = _key.authenticate(_profile.getProvider(), password);
     if(!result.first)

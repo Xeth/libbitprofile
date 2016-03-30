@@ -46,10 +46,10 @@ class ProfileAdministrator
         template<class Callback>
         void unlink(Registrar &, const std::string &password, const Callback &);
 
-        bool rename(Registrar &, const std::string &name, const std::string &password);
+        bool move(Registrar &, const std::string &name, const std::string &password);
 
         template<class Callback>
-        void rename(Registrar &, const std::string &name, const std::string &password, const Callback &);
+        void move(Registrar &, const std::string &name, const std::string &password, const Callback &);
 
         static ProfileAdministrator CreateProfile(Registrar &, const std::string &name, const std::string &password);
         static ProfileAdministrator CreateProfile(Registrar &, const std::string &name, const address_t &, const std::string &password);

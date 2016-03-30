@@ -129,7 +129,7 @@ void ProfileAdministrator::changeAuth(const AddressAuth &auth, const std::string
 
 
 template<class Callback>
-void ProfileAdministrator::rename(Registrar &registrar, const std::string &name, const std::string &password, const Callback &callback)
+void ProfileAdministrator::move(Registrar &registrar, const std::string &name, const std::string &password, const Callback &callback)
 {
     std::pair<bool, std::string> result = _key.authenticate(_profile.getProvider(), password);
     if(!result.first)
