@@ -2,8 +2,10 @@
 
 
 #include <ostream>
+#include <istream>
 #include <json/value.h>
 #include <json/writer.h>
+#include <json/reader.h>
 
 
 #include "Profile.hpp"
@@ -29,6 +31,9 @@ class ProfileDescriptor
 
         ProfileDescriptor(const ProfileAdministrator &);
         ProfileDescriptor(const Json::Value &);
+
+        void setURI(const Profile::URI &);
+        void reset(const Json::Value &);
 
         std::string getURI() const;
         std::string getName() const;
@@ -58,5 +63,6 @@ class ProfileDescriptor
 
 
 std::ostream & operator << (std::ostream &, const BitProfile::ProfileDescriptor &);
+std::istream & operator >> (std::istream &, BitProfile::ProfileDescriptor &);
 
 #include "ProfileDescriptor.ipp"
