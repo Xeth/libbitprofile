@@ -25,6 +25,8 @@ class ProfileStore
         ProfileStore(const fs::path &);
 
         bool insert(const ProfileDescriptor &);
+        bool remove(const Profile::URI &);
+        bool remove(const std::string &);
 
         bool contains(const char *name) const;
         Iterator find(const char *name) const;

@@ -110,6 +110,18 @@ bool ProfileStore::insert(const ProfileDescriptor &descriptor)
 }
 
 
+bool ProfileStore::remove(const Profile::URI &uri)
+{
+    return remove(uri.toString());
+}
+
+
+bool ProfileStore::remove(const std::string &uri)
+{
+    return fs::remove(makeProfilePath(uri));
+}
+
+
 fs::path ProfileStore::makeProfilePath(const std::string &uri) const
 {
     std::string filename = uri;
