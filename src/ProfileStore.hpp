@@ -29,6 +29,8 @@ class ProfileStore
         bool remove(const std::string &);
 
         bool contains(const char *name) const;
+        Iterator find(const std::string &) const;
+        Iterator find(const Profile::URI &) const;
         Iterator find(const char *name) const;
         Iterator begin() const;
         Iterator end() const;

@@ -80,6 +80,15 @@ ProfileStore::Iterator ProfileStore::end() const
     return Iterator(fs::directory_iterator());
 }
 
+ProfileStore::Iterator ProfileStore::find(const std::string &uri) const
+{
+    return find(uri.c_str());
+}
+
+ProfileStore::Iterator ProfileStore::find(const Profile::URI &uri) const
+{
+    return find(uri.toString());
+}
 
 ProfileStore::Iterator ProfileStore::find(const char *uri) const
 {
