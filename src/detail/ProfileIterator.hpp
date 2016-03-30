@@ -4,8 +4,6 @@
 #include <boost/iterator/iterator_adaptor.hpp>
 #include <boost/filesystem.hpp>
 
-#include <json/value.h>
-#include <json/reader.h>
 #include <string>
 #include <fstream>
 
