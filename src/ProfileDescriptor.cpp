@@ -4,6 +4,10 @@
 namespace BitProfile{
 
 
+ProfileDescriptor::ProfileDescriptor()
+{}
+
+
 ProfileDescriptor::ProfileDescriptor(const Json::Value &value) :
     _data(value)
 {}

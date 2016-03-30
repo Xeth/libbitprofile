@@ -22,6 +22,8 @@ class ProfileDescriptor
 {
     public:
 
+        ProfileDescriptor();
+
         template<class Key>
         ProfileDescriptor(const Profile &, const Key &);
 
