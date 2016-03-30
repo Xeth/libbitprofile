@@ -21,6 +21,8 @@ class ProfileAdministrator
 
         ProfileAdministrator(const Profile &, const KeyAdapter &);
 
+        void setGasPrice(const BigInt &);
+
         bool set(const std::string &key, const std::string &value, const std::string &password);
 
         template<class Callback>

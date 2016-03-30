@@ -10,6 +10,11 @@ ProfileAdministrator::ProfileAdministrator(const Profile &profile, const KeyAdap
 {}
 
 
+void ProfileAdministrator::setGasPrice(const BigInt &price)
+{
+    _profile.setGasPrice(price);
+}
+
 const KeyAdapter & ProfileAdministrator::getKey() const
 {
     return _key;
