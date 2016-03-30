@@ -26,5 +26,10 @@ std::string RegistrarURI::toString() const
     return std::string("b") + boost::lexical_cast<std::string>(_index);
 }
 
+size_t RegistrarURI::getIndex() const
+{
+    return _index;
+}
+
 
 }
