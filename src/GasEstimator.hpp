@@ -20,8 +20,6 @@ namespace BitProfile{
 
 class GasEstimator
 {
-    public:
-        typedef Ethereum::Connector::BigInt BigInt;
 
     public:
 

@@ -18,6 +18,7 @@ typedef std::string txid_t;
 typedef std::string address_t;
 typedef Ethereum::ABI::Arguments arguments_t;
 
+using Ethereum::Connector::BigInt;
 using Ethereum::Connector::Provider;
 using Ethereum::Connector::ContractResult;
 using Ethereum::Connector::ContractArguments;
