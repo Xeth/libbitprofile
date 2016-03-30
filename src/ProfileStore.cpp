@@ -110,6 +110,31 @@ bool ProfileStore::contains(const char *uri) const
 }
 
 
+bool ProfileStore::changeProfileURI(const Profile::URI &oldURI, const Profile::URI &newURI)
+{
+    return changeProfileURI(oldURI.toString(), newURI);
+}
+
+
+bool ProfileStore::changeProfileURI(const std::string &oldURI, const Profile::URI &newURI)
+{
+    fs::path oldPath = makeProfilePath(oldURI);
+    fs::path newPath = makeProfilePath(newURI.toString());
+
+    if(!fs::exists(oldPath))
+    {
+        return false;
+    }
+
+    std::fstream file(oldPath.string().c_str());
+    ProfileDescriptor descriptor;
+    file>>descriptor;
+    descriptor.setURI(newURI);
+    file<<descriptor;
+    fs::rename(oldPath, newPath);
+    return true;
+}
+
 bool ProfileStore::insert(const ProfileDescriptor &descriptor)
 {
     fs::path path = makeProfilePath(descriptor.getURI());

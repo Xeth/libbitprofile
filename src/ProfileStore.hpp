@@ -28,6 +28,9 @@ class ProfileStore
         bool remove(const Profile::URI &);
         bool remove(const std::string &);
 
+        bool changeProfileURI(const Profile::URI &, const Profile::URI &);
+        bool changeProfileURI(const std::string &, const Profile::URI &);
+
         bool contains(const char *name) const;
         Iterator find(const std::string &) const;
         Iterator find(const Profile::URI &) const;
