@@ -30,6 +30,22 @@ class ProfileAdministrator::CreateProfileCallback
 };
 
 
+template<class Callback>
+class ProfileAdministrator::RenameProfileCallback
+{
+    public:
+        RenameProfileCallback(Registrar &, ProfileAdministrator *, const std::string &name, const std::string &password, const Callback &);
+
+        void operator()(bool);
+
+    private:
+        Registrar &_registrar;
+        ProfileAdministrator *_admin;
+        std::string _name;
+        std::string _password;
+        Callback _callback;
+};
+
 template<class Key>
 ProfileAdministrator::ProfileAdministrator(const Profile &profile, const Key &key) : 
     _profile(profile),
@@ -112,6 +128,21 @@ void ProfileAdministrator::changeAuth(const AddressAuth &auth, const std::string
 }
 
 
+template<class Callback>
+void ProfileAdministrator::rename(Registrar &registrar, const std::string &name, const std::string &password, const Callback &callback)
+{
+    std::pair<bool, std::string> result = _key.authenticate(_profile.getProvider(), password);
+    if(!result.first)
+    {
+        callback(false);
+    }
+    else
+    {
+        registrar.unlink(_profile.getAddress(), result.second, RenameProfileCallback<Callback>(registrar, this, name, password, callback));
+    }
+}
+
+
 template<class Callback, class Key>
 ProfileAdministrator::ChangeAuthCallback<Callback, Key>::ChangeAuthCallback(ProfileAdministrator *admin, const Key &key, const Callback &callback) :
     _admin(admin),
@@ -131,6 +162,37 @@ void ProfileAdministrator::ChangeAuthCallback<Callback, Key>::operator()(bool re
     else
     {
         _callback(false);
+    }
+}
+
+
+template<class Callback>
+ProfileAdministrator::RenameProfileCallback<Callback>::RenameProfileCallback(Registrar &registrar, ProfileAdministrator *admin, const std::string &name, const std::string &password, const Callback &callback) :
+    _registrar(registrar),
+    _admin(admin),
+    _name(name),
+    _password(password),
+    _callback(callback)
+{}
+
+template<class Callback>
+void ProfileAdministrator::RenameProfileCallback<Callback>::operator()(bool result)
+{
+    if(!result)
+    {
+        _callback(false);
+    }
+    else
+    {
+        std::pair<bool, std::string> result = _admin->_key.authenticate(_admin->_profile.getProvider(), _password);
+        if(!result.first)
+        {
+            _callback(false);
+        }
+        else
+        {
+            _registrar.link(_name, _admin->_profile.getAddress(), result.second, _callback);
+        }
     }
 }
 
