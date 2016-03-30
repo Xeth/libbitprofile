@@ -42,6 +42,8 @@ class Registrar : public Contract
 
         const URI & getURI() const;
 
+        address_t getProfileFactory() const;
+
     private:
         bool checkProfile(std::string, address_t owner, bool active);
 

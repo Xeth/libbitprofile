@@ -19,6 +19,11 @@ const Registrar::URI & Registrar::getURI() const
     return _uri;
 }
 
+address_t Registrar::getProfileFactory() const
+{
+    return call<address_t, Address_Type>("getFactory()");
+}
+
 
 bool Registrar::create(const std::string &name, const std::string &authData)
 {
