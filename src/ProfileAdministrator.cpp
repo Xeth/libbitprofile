@@ -26,6 +26,17 @@ bool ProfileAdministrator::set(const std::string &key, const std::string &value,
 }
 
 
+bool ProfileAdministrator::setPaymentAddress(const address_t &address, const std::string &password)
+{
+    std::pair<bool, std::string> result = _key.authenticate(_profile.getProvider(), password);
+    if(!result.first)
+    {
+        return false;
+    }
+    return _profile.setPaymentAddress(address, result.second);
+}
+
+
 bool ProfileAdministrator::changeAuth(const AddressAuth &auth, const std::string &password)
 {
     std::pair<bool, std::string> result = _key.authenticate(_profile.getProvider(), password);

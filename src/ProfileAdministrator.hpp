@@ -26,6 +26,10 @@ class ProfileAdministrator
         template<class Callback>
         void set(const std::string &key, const std::string &value, const std::string &password, const Callback &);
 
+        bool setPaymentAddress(const address_t &, const std::string &password);
+
+        template<class Callback>
+        void setPaymentAddress(const address_t &, const std::string &password, const Callback &);
 
         bool changeAuth(const AddressAuth &, const std::string &password);
 

@@ -63,6 +63,20 @@ void ProfileAdministrator::set(const std::string &key, const std::string &value,
     }
 }
 
+template<class Callback>
+void ProfileAdministrator::setPaymentAddress(const address_t &address, const std::string &password, const Callback &callback)
+{
+    std::pair<bool, std::string> result = _key.authenticate(_profile.getProvider(), password);
+    if(!result.first)
+    {
+        callback(false);
+    }
+    else
+    {
+        setPaymentAddress(address, callback);
+    }
+}
+
 
 template<class Key>
 ProfileAdministrator ProfileAdministrator::CreateProfile(Registrar &registrar, const std::string &name, const Key &key, const std::string &password)
