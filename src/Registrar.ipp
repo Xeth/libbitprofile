@@ -17,8 +17,8 @@ void Registrar::create(const std::string &name, const address_t &address, const 
     {
         executeConfirm
         (
-            "register(string,string)",
-            CONTRACT_ARGUMENTS(name, authData),
+            "register(bytes32,bytes)",
+            CONTRACT_ARGUMENTS(ABI_FIXED(name), authData),
             boost::bind(&Registrar::checkProfile, this, name, address.size()?address:getSenderAddress(), true),
             callback
         );
@@ -37,8 +37,8 @@ void Registrar::link(const std::string &name, const address_t &address, const st
     {
         return executeConfirm
         (
-            "link(string,address,string)",
-            CONTRACT_ARGUMENTS(name, address, authData),
+            "link(bytes32,address,bytes)",
+            CONTRACT_ARGUMENTS(ABI_FIXED(name), address, authData),
             boost::bind(&Registrar::checkProfile, this, name, address, true),
             callback
         );
@@ -57,8 +57,8 @@ void Registrar::unlink(const std::string &name, const std::string &authData, con
     {
         return executeConfirm
         (
-            "unlink(string,string)",
-            CONTRACT_ARGUMENTS(name, authData),
+            "unlink(bytes32,bytes)",
+            CONTRACT_ARGUMENTS(ABI_FIXED(name), authData),
             boost::bind(&Registrar::checkProfile, this, name, getSenderAddress(), false),
             callback
         );

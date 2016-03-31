@@ -25,8 +25,8 @@ bool Profile::set(const std::string &key, const std::string &value, const std::s
 {
     return executeConfirm
     (
-        "set(string,string,string)", 
-        CONTRACT_ARGUMENTS(key, value, authData),
+        "set(bytes32,bytes,bytes)", 
+        CONTRACT_ARGUMENTS(ABI_FIXED(key), value, authData),
         boost::bind(&Profile::checkKey, this, key, value)
     );
 }
@@ -35,15 +35,15 @@ bool Profile::clear(const std::string &key, const std::string &authData)
 {
     return executeConfirm
     (
-        "clear(string,string)", 
-        CONTRACT_ARGUMENTS(key, authData),
+        "clear(bytes32,bytes)", 
+        CONTRACT_ARGUMENTS(ABI_FIXED(key), authData),
         boost::bind(&Profile::checkKey, this, key, "")
     );
 }
 
 std::string Profile::get(const std::string &key)
 {
-    return call<std::string, String_Type>("get(string)", CONTRACT_ARGUMENTS(key));
+    return call<std::string, String_Type>("get(bytes32)", CONTRACT_ARGUMENTS(ABI_FIXED(key)));
 }
 
 
@@ -60,12 +60,12 @@ bool Profile::setPaymentAddress(const address_t &address, const std::string &aut
 
 txid_t Profile::setPermission(const std::string &key, Auth::Permission permission, const std::string &authData)
 {
-    return execute("setPermission(string,uint8,string)", CONTRACT_ARGUMENTS(key, permission, authData));
+    return execute("setPermission(bytes32,uint8,bytes)", CONTRACT_ARGUMENTS(ABI_FIXED(key), permission, authData));
 }
 
 bool Profile::authenticate(const address_t &address, Auth::Permission permission)
 {
-    return call<bool, Bool_Type>("authenticate(address,string,uint8)", CONTRACT_ARGUMENTS(ABI_ADDRESS(address), "", permission));
+    return call<bool, Bool_Type>("authenticate(address,bytes,uint8)", CONTRACT_ARGUMENTS(ABI_ADDRESS(address), "", permission));
 }
 
 address_t Profile::getAuth() const
@@ -77,7 +77,7 @@ bool Profile::transfer(const address_t &address, const std::string &authData)
 {
     return executeConfirm
     (
-        "transfer(address,string)",
+        "transfer(address,bytes)",
         CONTRACT_ARGUMENTS(ABI_ADDRESS(address), authData),
         boost::bind(&Profile::checkOwner, this, address)
     );
@@ -85,7 +85,7 @@ bool Profile::transfer(const address_t &address, const std::string &authData)
 
 txid_t Profile::kill(const std::string &authData)
 {
-    return execute("kill(string)", CONTRACT_ARGUMENTS(authData));
+    return execute("kill(bytes)", CONTRACT_ARGUMENTS(authData));
 }
 
 
