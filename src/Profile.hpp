@@ -48,6 +48,7 @@ class Profile : public Contract
         const URI & getURI() const;
 
     private:
+        bool validateKey(const std::string &key) const;
         bool checkKey(std::string key, std::string value);
         bool checkOwner(address_t);
 

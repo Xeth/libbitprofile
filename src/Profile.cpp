@@ -14,6 +14,10 @@ Profile::Profile(Provider &provider, const address_t &address, const URI &uri) :
     _uri(uri)
 {}
 
+bool Profile::validateKey(const std::string &key) const
+{
+    return key.size() < 33;
+}
 
 const Profile::URI & Profile::getURI() const
 {
@@ -23,6 +27,10 @@ const Profile::URI & Profile::getURI() const
 
 bool Profile::set(const std::string &key, const std::string &value, const std::string &authData)
 {
+    if(!validateKey(key))
+    {
+        return false;
+    }
     return executeConfirm
     (
         "set(bytes32,bytes,bytes)", 
@@ -33,6 +41,10 @@ bool Profile::set(const std::string &key, const std::string &value, const std::s
 
 bool Profile::clear(const std::string &key, const std::string &authData)
 {
+    if(!validateKey(key))
+    {
+        return false;
+    }
     return executeConfirm
     (
         "clear(bytes32,bytes)", 
@@ -60,6 +72,10 @@ bool Profile::setPaymentAddress(const address_t &address, const std::string &aut
 
 txid_t Profile::setPermission(const std::string &key, Auth::Permission permission, const std::string &authData)
 {
+    if(!validateKey(key))
+    {
+        return "";
+    }
     return execute("setPermission(bytes32,uint8,bytes)", CONTRACT_ARGUMENTS(ABI_FIXED(key), permission, authData));
 }
 

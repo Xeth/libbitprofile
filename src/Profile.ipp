@@ -4,26 +4,40 @@ namespace BitProfile{
 template<class Callback>
 void Profile::set(const std::string &key, const std::string &value, const std::string &authData, const Callback &callback)
 {
-    return executeConfirm
-    (
-        "set(bytes32,bytes,bytes)", 
-        CONTRACT_ARGUMENTS(ABI_FIXED(key), value, authData),
-        boost::bind(&Profile::checkKey, this, key, value),
-        callback
-    );
+    if(!validateKey(key))
+    {
+        callback(false);
+    }
+    else
+    {
+        return executeConfirm
+        (
+            "set(bytes32,bytes,bytes)", 
+            CONTRACT_ARGUMENTS(ABI_FIXED(key), value, authData),
+            boost::bind(&Profile::checkKey, this, key, value),
+            callback
+        );
+    }
 }
 
 
 template<class Callback>
 void Profile::clear(const std::string &key, const std::string &authData, const Callback &callback)
 {
-    return executeConfirm
-    (
-        "clear(bytes32,bytes)", 
-        CONTRACT_ARGUMENTS(ABI_FIXED(key), authData),
-        boost::bind(&Profile::checkKey, this, key, ""),
-        callback
-    );
+    if(!validateKey(key))
+    {
+        callback(false);
+    }
+    else
+    {
+        return executeConfirm
+        (
+            "clear(bytes32,bytes)", 
+            CONTRACT_ARGUMENTS(ABI_FIXED(key), authData),
+            boost::bind(&Profile::checkKey, this, key, ""),
+            callback
+        );
+    }
 }
 
 
