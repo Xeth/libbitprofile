@@ -41,13 +41,13 @@ bool Profile::clear(const std::string &key, const std::string &authData)
     );
 }
 
-std::string Profile::get(const std::string &key)
+std::string Profile::get(const std::string &key) const
 {
     return call<std::string, String_Type>("get(bytes32)", CONTRACT_ARGUMENTS(ABI_FIXED(key)));
 }
 
 
-address_t Profile::getPaymentAddress()
+address_t Profile::getPaymentAddress() const
 {
     return get("payments");
 }

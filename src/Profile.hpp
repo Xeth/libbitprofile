@@ -19,9 +19,9 @@ class Profile : public Contract
 
         bool set(const std::string &key, const std::string &value, const std::string &authData = "");
         bool clear(const std::string &key, const std::string &authData = "");
-        std::string get(const std::string &key);
+        std::string get(const std::string &key) const;
 
-        address_t getPaymentAddress();
+        address_t getPaymentAddress() const;
         bool setPaymentAddress(const address_t &, const std::string &authData = "");
 
         bool authenticate(const address_t &, Auth::Permission);
