@@ -35,6 +35,8 @@ class Contract : public Ethereum::Connector::Contract
         bool isNull() const;
         Provider & getProvider();
 
+        const txid_t & getLastTransaction() const;
+
     private:
         typedef Ethereum::Connector::Contract Base;
         template<class Result, DataType type> class ResultTypeTag{};
@@ -71,6 +73,7 @@ class Contract : public Ethereum::Connector::Contract
     private:
         TransactionObserver _observer;
         Provider &_provider;
+        txid_t _lastTransaction;
 };
 
 

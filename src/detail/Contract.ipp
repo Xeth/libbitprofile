@@ -11,6 +11,12 @@ inline Contract::Contract(Provider &provider, const address_t &address) :
 }
 
 
+inline const txid_t & Contract::getLastTransaction() const
+{
+    return _lastTransaction;
+}
+
+
 template<class Result, DataType type>
 Result Contract::call(const char *method) const
 {
@@ -64,29 +70,29 @@ inline Provider & Contract::getProvider()
 template<class CheckCallback>
 bool Contract::executeConfirm(const char *method, const CheckCallback &check)
 {
-    txid_t txid = execute(method);
-    return _observer.watch(txid) && check();
+    _lastTransaction = execute(method);
+    return _observer.watch(_lastTransaction) && check();
 }
 
 template<class CheckCallback>
 bool Contract::executeConfirm(const char *method, const ContractArguments &args, const CheckCallback &check)
 {
-    txid_t txid = execute(method, args);
-    return _observer.watch(txid) && check();
+    _lastTransaction = execute(method, args);
+    return _observer.watch(_lastTransaction) && check();
 }
 
 template<class CheckCallback, class Callback>
 void Contract::executeConfirm(const char *method, const ContractArguments &args, const CheckCallback &check, const Callback &callback)
 {
-    txid_t txid = execute(method, args);
-    _observer.watch(txid, ConfirmCallbackDelegate<CheckCallback, Callback>(check, callback));
+    _lastTransaction = execute(method, args);
+    _observer.watch(_lastTransaction, ConfirmCallbackDelegate<CheckCallback, Callback>(check, callback));
 }
 
 template<class CheckCallback, class Callback>
 void Contract::executeConfirm(const char *method, const CheckCallback &check, const Callback &callback)
 {
-    txid_t txid = execute(method);
-    _observer.watch(txid, ConfirmCallbackDelegate<CheckCallback, Callback>(check, callback));
+    _lastTransaction = execute(method);
+    _observer.watch(_lastTransaction, ConfirmCallbackDelegate<CheckCallback, Callback>(check, callback));
 }
 
 
