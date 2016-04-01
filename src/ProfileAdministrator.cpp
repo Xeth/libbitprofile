@@ -85,7 +85,7 @@ bool ProfileAdministrator::unlink(Registrar &registrar, const std::string &passw
 }
 
 
-bool ProfileAdministrator::move(Registrar &registrar, const std::string &name, const std::string &password)
+bool ProfileAdministrator::move(Registrar &registrar, const std::string &name, const std::string &password, const BigInt &gas)
 {
     std::pair<bool, std::string> result = _key.authenticate(_profile.getProvider(), password);
     if(!result.first)
@@ -93,14 +93,42 @@ bool ProfileAdministrator::move(Registrar &registrar, const std::string &name, c
         return false;
     }
 
+    BigInt oldGas;
+
+    if(gas > 0)
+    {
+        oldGas = registrar.getGasLimit();
+        registrar.setGasLimit(gas);
+    }
+
     Resolver resolver(_profile.getProvider());
     Registrar oldRegistrar = resolver.lookupRegistrar(_profile.getURI().getContext());
+    std::string oldName = _profile.getURI().getName();
 
-    if(!oldRegistrar.unlink(_profile.getAddress(), result.second))
+    registrar.setSenderAddress(_key.getAddress());
+
+    if(!registrar.link(name, _profile.getAddress(), result.second))
     {
         return false;
     }
-    return registrar.link(name, _profile.getAddress(), result.second);
+
+
+    if(gas > 0)
+    {
+        registrar.setGasLimit(oldGas);
+        Ethereum::Connector::BlockChain blockchain(_profile.getProvider());
+        Ethereum::Connector::Transaction tx = blockchain.getTransaction(registrar.getLastTransaction().c_str());
+        BigInt unlinkGas = gas - tx.getGas();
+        if(unlinkGas > 0)
+        {
+            oldRegistrar.setGasLimit(unlinkGas);
+        }
+    }
+
+    oldRegistrar.setSenderAddress(_key.getAddress());
+
+    return oldRegistrar.unlink(oldName, result.second);
+
 }
 
 

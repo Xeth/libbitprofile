@@ -128,20 +128,6 @@ void ProfileAdministrator::changeAuth(const AddressAuth &auth, const std::string
 }
 
 
-template<class Callback>
-void ProfileAdministrator::move(Registrar &registrar, const std::string &name, const std::string &password, const Callback &callback)
-{
-    std::pair<bool, std::string> result = _key.authenticate(_profile.getProvider(), password);
-    if(!result.first)
-    {
-        callback(false);
-    }
-    else
-    {
-        registrar.unlink(_profile.getAddress(), result.second, RenameProfileCallback<Callback>(registrar, this, name, password, callback));
-    }
-}
-
 
 template<class Callback, class Key>
 ProfileAdministrator::ChangeAuthCallback<Callback, Key>::ChangeAuthCallback(ProfileAdministrator *admin, const Key &key, const Callback &callback) :

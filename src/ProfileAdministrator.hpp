@@ -1,5 +1,7 @@
 #pragma once
 
+#include "ethrpc/BlockChain.hpp"
+
 #include "Profile.hpp"
 #include "Registrar.hpp"
 #include "AddressAuth.hpp"
@@ -50,10 +52,7 @@ class ProfileAdministrator
         template<class Callback>
         void unlink(Registrar &, const std::string &password, const Callback &);
 
-        bool move(Registrar &, const std::string &name, const std::string &password);
-
-        template<class Callback>
-        void move(Registrar &, const std::string &name, const std::string &password, const Callback &);
+        bool move(Registrar &, const std::string &name, const std::string &password, const BigInt &gas);
 
         static ProfileAdministrator CreateProfile(Registrar &, const std::string &name, const std::string &password);
         static ProfileAdministrator CreateProfile(Registrar &, const std::string &name, const address_t &, const std::string &password);
