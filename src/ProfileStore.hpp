@@ -34,13 +34,13 @@ class ProfileStore
         bool contains(const char *name) const;
         Iterator find(const std::string &) const;
         Iterator find(const Profile::URI &) const;
-        Iterator find(const char *name) const;
         Iterator begin() const;
         Iterator end() const;
 
     private:
         void createIfNotExists();
         fs::path getDefaultPath(Network) const;
+        std::string makeFileName(const std::string &uri) const;
         fs::path makeProfilePath(const std::string &name) const;
 
     private:

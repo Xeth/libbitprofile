@@ -82,7 +82,16 @@ ProfileStore::Iterator ProfileStore::end() const
 
 ProfileStore::Iterator ProfileStore::find(const std::string &uri) const
 {
-    return find(uri.c_str());
+    std::string filename = makeFileName(uri);
+    Iterator it = begin();
+    for(; it!= end(); ++it)
+    {
+        if(it.path().filename()==filename)
+        {
+            break;
+        }
+    }
+    return it;
 }
 
 ProfileStore::Iterator ProfileStore::find(const Profile::URI &uri) const
@@ -90,18 +99,6 @@ ProfileStore::Iterator ProfileStore::find(const Profile::URI &uri) const
     return find(uri.toString());
 }
 
-ProfileStore::Iterator ProfileStore::find(const char *uri) const
-{
-    Iterator it = begin();
-    for(; it!= end(); ++it)
-    {
-        if(it.path().stem()=="uri")
-        {
-            break;
-        }
-    }
-    return it;
-}
 
 
 bool ProfileStore::contains(const char *uri) const
@@ -155,8 +152,7 @@ bool ProfileStore::remove(const std::string &uri)
     return fs::remove(makeProfilePath(uri));
 }
 
-
-fs::path ProfileStore::makeProfilePath(const std::string &uri) const
+std::string ProfileStore::makeFileName(const std::string &uri) const
 {
     std::string filename = uri;
     size_t pos = filename.find(':');
@@ -165,6 +161,12 @@ fs::path ProfileStore::makeProfilePath(const std::string &uri) const
         filename.replace(pos, 1, 1, '_');
     }
     filename += ".bp";
+    return filename;
+}
+
+fs::path ProfileStore::makeProfilePath(const std::string &uri) const
+{
+    std::string filename = makeFileName(uri);
     fs::path path = _path;
     path /= filename;
     return path;
