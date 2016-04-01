@@ -9,19 +9,26 @@ void Registrar::create(const std::string &name, const std::string &authData, con
 template<class Callback>
 void Registrar::create(const std::string &name, const address_t &address, const std::string &authData, const Callback &callback)
 {
-    if(contains(name))
+    if(!validateName(name))
     {
         callback(false);
     }
     else
     {
-        executeConfirm
-        (
-            "register(bytes32,bytes)",
-            CONTRACT_ARGUMENTS(ABI_FIXED(name), authData),
-            boost::bind(&Registrar::checkProfile, this, name, address.size()?address:getSenderAddress(), true),
-            callback
-        );
+        if(contains(name))
+        {
+            callback(false);
+        }
+        else
+        {
+            executeConfirm
+            (
+                "register(bytes32,bytes)",
+                CONTRACT_ARGUMENTS(ABI_FIXED(name), authData),
+                boost::bind(&Registrar::checkProfile, this, name, address.size()?address:getSenderAddress(), true),
+                callback
+            );
+        }
     }
 }
 
@@ -29,19 +36,26 @@ void Registrar::create(const std::string &name, const address_t &address, const 
 template<class Callback>
 void Registrar::link(const std::string &name, const address_t &address, const std::string &authData, const Callback &callback)
 {
-    if(contains(name))
+    if(!validateName(name))
     {
         callback(false);
     }
     else
     {
-        return executeConfirm
-        (
-            "link(bytes32,address,bytes)",
-            CONTRACT_ARGUMENTS(ABI_FIXED(name), address, authData),
-            boost::bind(&Registrar::checkProfile, this, name, address, true),
-            callback
-        );
+        if(contains(name))
+        {
+            callback(false);
+        }
+        else
+        {
+            return executeConfirm
+            (
+                "link(bytes32,address,bytes)",
+                CONTRACT_ARGUMENTS(ABI_FIXED(name), address, authData),
+                boost::bind(&Registrar::checkProfile, this, name, address, true),
+                callback
+            );
+        }
     }
 }
 

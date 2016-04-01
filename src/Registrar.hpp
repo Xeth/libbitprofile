@@ -45,6 +45,7 @@ class Registrar : public Contract
         address_t getProfileFactory() const;
 
     private:
+        bool validateName(const std::string &) const;
         bool checkProfile(std::string, address_t owner, bool active);
 
     private:

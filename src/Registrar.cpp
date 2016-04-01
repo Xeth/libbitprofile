@@ -14,6 +14,24 @@ Registrar::Registrar(Provider &provider, const address_t &address, const URI &ur
 {}
 
 
+bool Registrar::validateName(const std::string &name) const
+{
+    if(name.size()>32)
+    {
+        return false;
+    }
+
+    for(std::string::const_iterator it=name.begin(), end=name.end(); it!=end; ++it)
+    {
+        char c = *it;
+        if(c<48||c>122||(c!=95&&c>57&&c<97))
+        {
+            return false;
+        }
+    }
+    return true;
+}
+
 const Registrar::URI & Registrar::getURI() const
 {
     return _uri;
@@ -32,6 +50,11 @@ bool Registrar::create(const std::string &name, const std::string &authData)
 
 bool Registrar::create(const std::string &name, const address_t &address, const std::string &authData)
 {
+    if(!validateName(name))
+    {
+        return false;
+    }
+
     if(contains(name))
     {
         return false;
@@ -48,6 +71,11 @@ bool Registrar::create(const std::string &name, const address_t &address, const 
 
 bool Registrar::link(const std::string &name, const address_t &address, const std::string &authData)
 {
+    if(!validateName(name))
+    {
+        return false;
+    }
+
     if(contains(name))
     {
         return false;
