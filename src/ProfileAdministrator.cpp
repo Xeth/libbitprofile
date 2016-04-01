@@ -92,7 +92,11 @@ bool ProfileAdministrator::move(Registrar &registrar, const std::string &name, c
     {
         return false;
     }
-    if(!registrar.unlink(_profile.getAddress(), result.second))
+
+    Resolver resolver(_profile.getProvider());
+    Registrar oldRegistrar = resolver.lookupRegistrar(_profile.getURI().getContext());
+
+    if(!oldRegistrar.unlink(_profile.getAddress(), result.second))
     {
         return false;
     }

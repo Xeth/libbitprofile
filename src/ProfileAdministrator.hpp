@@ -5,6 +5,7 @@
 #include "AddressAuth.hpp"
 #include "AddressAuthKey.hpp"
 #include "ProfileDescriptor.hpp"
+#include "Resolver.hpp"
 
 #include "detail/types.hpp"
 #include "detail/KeyAdapter.hpp"
