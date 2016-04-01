@@ -15,6 +15,11 @@ void ProfileAdministrator::setGasPrice(const BigInt &price)
     _profile.setGasPrice(price);
 }
 
+void ProfileAdministrator::setGasLimit(const BigInt &gas)
+{
+    _profile.setGasLimit(gas);
+}
+
 const KeyAdapter & ProfileAdministrator::getKey() const
 {
     return _key;

@@ -22,6 +22,7 @@ class ProfileAdministrator
         ProfileAdministrator(const Profile &, const KeyAdapter &);
 
         void setGasPrice(const BigInt &);
+        void setGasLimit(const BigInt &);
 
         bool set(const std::string &key, const std::string &value, const std::string &password);
 
