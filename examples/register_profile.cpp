@@ -42,7 +42,7 @@ int main(int argc, char **argv)
     else
     {
         std::cout<<"profile registered"<<std::endl;
-        BitProfile::ProfileStore store;
+        BitProfile::ProfileStore store(BitProfile::Test_Net);
         if(store.insert(BitProfile::ProfileDescriptor(profile)))
         {
             std::cout<<"profile saved"<<std::endl;

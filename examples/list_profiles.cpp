@@ -4,7 +4,7 @@
 
 int main()
 {
-    BitProfile::ProfileStore store;
+    BitProfile::ProfileStore store(BitProfile::Test_Net);
 
     for(BitProfile::ProfileStore::Iterator it = store.begin(), end = store.end(); it!=end; ++it)
     {
