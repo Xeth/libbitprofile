@@ -32,18 +32,14 @@ bool ProfileAdministrator::set(const std::string &key, const std::string &value,
     {
         return false;
     }
+    _profile.setSenderAddress(_key.getAddress());
     return _profile.set(key, value, result.second);
 }
 
 
 bool ProfileAdministrator::setPaymentAddress(const address_t &address, const std::string &password)
 {
-    std::pair<bool, std::string> result = _key.authenticate(_profile.getProvider(), password);
-    if(!result.first)
-    {
-        return false;
-    }
-    return _profile.setPaymentAddress(address, result.second);
+    return set("payments", address, password);
 }
 
 
@@ -54,6 +50,7 @@ bool ProfileAdministrator::changeAuth(const AddressAuth &auth, const std::string
     {
         return false;
     }
+    _profile.setSenderAddress(_key.getAddress());
     if(_profile.transfer(auth.getAddress(), result.second))
     {
         _key.reset(AddressAuthKey(auth.getSenderAddress()));
@@ -70,6 +67,7 @@ bool ProfileAdministrator::link(Registrar &registrar, const std::string &name, c
     {
         return false;
     }
+    registrar.setSenderAddress(_key.getAddress());
     return registrar.link(name, _profile.getAddress(), result.second);
 }
 
@@ -81,7 +79,8 @@ bool ProfileAdministrator::unlink(Registrar &registrar, const std::string &passw
     {
         return false;
     }
-    return registrar.unlink(_profile.getAddress(), result.second);
+    registrar.setSenderAddress(_key.getAddress());
+    return registrar.unlink(_profile.getURI().getName(), result.second);
 }
 
 

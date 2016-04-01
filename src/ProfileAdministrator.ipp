@@ -75,7 +75,8 @@ void ProfileAdministrator::set(const std::string &key, const std::string &value,
     }
     else
     {
-        set(key, value, result.second, callback);
+        _profile.setSenderAddress(_key.getAddress());
+        _profile.set(key, value, result.second, callback);
     }
 }
 
@@ -89,7 +90,8 @@ void ProfileAdministrator::setPaymentAddress(const address_t &address, const std
     }
     else
     {
-        setPaymentAddress(address, callback);
+        _profile.setSenderAddress(_key.getAddress());
+        _profile.setPaymentAddress(address, callback);
     }
 }
 
@@ -97,7 +99,8 @@ void ProfileAdministrator::setPaymentAddress(const address_t &address, const std
 template<class Key>
 ProfileAdministrator ProfileAdministrator::CreateProfile(Registrar &registrar, const std::string &name, const Key &key, const std::string &password)
 {
-    if(registrar.create(name, key.getAddress(), key.authenticate(registrar.getProvider(), password).second))
+    registrar.setSenderAddress(key.getAddress());
+    if(registrar.create(name, key.authenticate(registrar.getProvider(), password).second))
     {
         return ProfileAdministrator(registrar.get(name), key);
     }
@@ -108,6 +111,7 @@ ProfileAdministrator ProfileAdministrator::CreateProfile(Registrar &registrar, c
 template<class Key, class Callback>
 void ProfileAdministrator::CreateProfile(Registrar &registrar, const std::string &name, const Key &key, const std::string &password, const Callback &callback)
 {
+    registrar.setSenderAddress(key.getAddress());
     registrar.create(name, key.authenticate(registrar.getProvider(), password), CreateProfileCallback<Key, Callback>(registrar, name, key, callback));
 }
 
@@ -122,6 +126,7 @@ void ProfileAdministrator::changeAuth(const AddressAuth &auth, const std::string
     }
     else
     {
+        _profile.setSenderAddress(_key.getAddress());
         _profile.transfer(auth.getAddress(), result.second, ChangeAuthCallback<Callback, AddressAuthKey>(this, AddressAuthKey(auth.getSenderAddress()), callback));
     }
 
