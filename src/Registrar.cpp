@@ -45,11 +45,6 @@ address_t Registrar::getProfileFactory() const
 
 bool Registrar::create(const std::string &name, const std::string &authData)
 {
-    return create(name, getSenderAddress(), authData);
-}
-
-bool Registrar::create(const std::string &name, const address_t &address, const std::string &authData)
-{
     if(!validateName(name))
     {
         return false;
@@ -64,9 +59,11 @@ bool Registrar::create(const std::string &name, const address_t &address, const 
     (
         "register(bytes32,bytes)",
         CONTRACT_ARGUMENTS(ABI_FIXED(name), authData),
-        boost::bind(&Registrar::checkProfile, this, name, address.size()?address:getSenderAddress(), true)
+        boost::bind(&Registrar::checkProfile, this, name, getSenderAddress(), true)
     );
 }
+
+
 
 
 bool Registrar::link(const std::string &name, const address_t &address, const std::string &authData)

@@ -3,12 +3,6 @@ namespace BitProfile{
 template<class Callback>
 void Registrar::create(const std::string &name, const std::string &authData, const Callback &callback)
 {
-    create(name, getSenderAddress(), authData, callback);
-}
-
-template<class Callback>
-void Registrar::create(const std::string &name, const address_t &address, const std::string &authData, const Callback &callback)
-{
     if(!validateName(name))
     {
         callback(false);
@@ -25,7 +19,7 @@ void Registrar::create(const std::string &name, const address_t &address, const 
             (
                 "register(bytes32,bytes)",
                 CONTRACT_ARGUMENTS(ABI_FIXED(name), authData),
-                boost::bind(&Registrar::checkProfile, this, name, address.size()?address:getSenderAddress(), true),
+                boost::bind(&Registrar::checkProfile, this, name, getSenderAddress(), true),
                 callback
             );
         }
