@@ -22,8 +22,13 @@ bool RegistrarURI::operator == (const RegistrarURI &uri) const
 
 std::string RegistrarURI::toString() const
 {
-    //ToDo : optimize it
-    return std::string("b") + boost::lexical_cast<std::string>(_index);
+    std::string result = boost::lexical_cast<std::string>(_index);
+    if(result.size()<3)
+    {
+        result.insert(0, 3-result.size(), '0');
+    }
+    result.insert(0,1,'b');
+    return result;
 }
 
 size_t RegistrarURI::getIndex() const
