@@ -22,11 +22,11 @@ Profile Resolver::lookupProfile(const std::string &uri)
 {
     try
     {
-        size_t offset = uri.find(':');
+        size_t offset = uri.find('@');
         if(offset!=std::string::npos)
         {
-            Registrar registrar = lookupRegistrar(uri.data(), offset);
-            std::string name = uri.substr(offset+1);
+            Registrar registrar = lookupRegistrar(uri.data()+offset+1, uri.size()-offset-1);
+            std::string name = uri.substr(0, offset);
             if(registrar.isNull())
             {
                 return Profile(_provider, "");
