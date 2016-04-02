@@ -42,7 +42,7 @@ std::string ProfileURI::toString() const
     result = _context;
     if(result.size())
     {
-        result += ':';
+        result += '@';
     }
     result += _name;
     return result;
