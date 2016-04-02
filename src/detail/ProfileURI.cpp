@@ -9,15 +9,19 @@ ProfileURI::ProfileURI()
 
 
 ProfileURI::ProfileURI(const RegistrarURI &registrar, const std::string &name) :
-    _registrar(registrar),
+    _context(registrar.toString()),
+    _name(name)
+{}
+
+ProfileURI::ProfileURI(const std::string &context, const std::string &name) :
+    _context(context),
     _name(name)
 {}
 
 
-
 bool ProfileURI::operator == (const ProfileURI &uri) const
 {
-    return _registrar==uri._registrar && _name == uri._name;
+    return _context==uri._context && _name == uri._name;
 }
 
 
@@ -29,13 +33,13 @@ const std::string & ProfileURI::getName() const
 
 std::string ProfileURI::getContext() const
 {
-    return _registrar.toString();
+    return _context;
 }
 
 std::string ProfileURI::toString() const
 {
     std::string result;
-    result = _registrar.toString();
+    result = _context;
     if(result.size())
     {
         result += ':';

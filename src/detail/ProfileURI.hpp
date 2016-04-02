@@ -12,6 +12,7 @@ class ProfileURI
     public:
         ProfileURI();
         ProfileURI(const RegistrarURI &, const std::string &name);
+        ProfileURI(const std::string &context, const std::string &name);
         const std::string & getName() const;
         std::string getContext() const;
 
@@ -19,7 +20,7 @@ class ProfileURI
         std::string toString() const;
 
     private:
-        RegistrarURI _registrar;
+        std::string _context;
         std::string _name;
 };
 
