@@ -81,8 +81,8 @@ bool Registrar::link(const std::string &name, const address_t &address, const st
     return executeConfirm
     (
         "link(bytes32,address,bytes)",
-        CONTRACT_ARGUMENTS(ABI_FIXED(name), address, authData),
-        boost::bind(&Registrar::checkProfile, this, name, address, true)
+        CONTRACT_ARGUMENTS(ABI_FIXED(name), ABI_ADDRESS(address), authData),
+        boost::bind(&Registrar::checkProfile, this, name, getSenderAddress(), true)
     );
 }
 
