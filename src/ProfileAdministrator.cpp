@@ -143,7 +143,7 @@ bool ProfileAdministrator::isNull() const
 
 ProfileAdministrator ProfileAdministrator::FromDescriptor(Provider &provider, const ProfileDescriptor &descriptor)
 {
-    return ProfileAdministrator(Profile(provider, descriptor.getAddress()), descriptor.getProfileKey());
+    return ProfileAdministrator(Profile(provider, descriptor.getAddress(), ProfileURI(descriptor.getContext(), descriptor.getName())), descriptor.getProfileKey());
 }
 
 
