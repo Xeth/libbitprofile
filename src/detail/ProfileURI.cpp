@@ -39,12 +39,12 @@ std::string ProfileURI::getContext() const
 std::string ProfileURI::toString() const
 {
     std::string result;
-    result = _context;
-    if(result.size())
+    result = _name;
+    if(_context.size())
     {
         result += '@';
+        result += _context;
     }
-    result += _name;
     return result;
 }
 
