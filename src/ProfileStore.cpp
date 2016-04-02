@@ -155,7 +155,7 @@ bool ProfileStore::remove(const std::string &uri)
 std::string ProfileStore::makeFileName(const std::string &uri) const
 {
     std::string filename = uri;
-    size_t pos = filename.find(':');
+    size_t pos = filename.find('@');
     if(pos!=std::string::npos)
     {
         filename.replace(pos, 1, 1, '_');
