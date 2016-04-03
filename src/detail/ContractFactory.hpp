@@ -54,14 +54,14 @@ template<class CallBack>
 class ContractFactory<Contract>::CallBackWrapper
 {
     public:
-        CallBackWrapper(const CallBack &, ContractFactory &);
+        CallBackWrapper(const CallBack &, ContractFactory<Contract> &);
 
         void operator()(const boost::system::error_code &);
-        void operator()(const ContractFactory::BaseContract &);
+        void operator()(const ContractFactory<Contract>::BaseContract &);
 
     private:
         CallBack _callback;
-        ContractFactory &_factory;
+        ContractFactory<Contract> &_factory;
 };
 
 

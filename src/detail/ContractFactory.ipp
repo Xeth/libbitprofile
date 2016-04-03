@@ -55,7 +55,7 @@ Contract ContractFactory<Contract>::cast(const BaseContract &contract)
 
 template<class Contract>
 template<class CallBack>
-ContractFactory<Contract>::CallBackWrapper<CallBack>::CallBackWrapper(const CallBack &callback, ContractFactory &factory) :
+ContractFactory<Contract>::CallBackWrapper<CallBack>::CallBackWrapper(const CallBack &callback, ContractFactory<Contract> &factory) :
     _callback(callback),
     _factory(factory)
 {}
@@ -71,7 +71,7 @@ void ContractFactory<Contract>::CallBackWrapper<CallBack>::operator()(const boos
 
 template<class Contract>
 template<class CallBack>
-void ContractFactory<Contract>::CallBackWrapper<CallBack>::operator()(const BaseContract &base)
+void ContractFactory<Contract>::CallBackWrapper<CallBack>::operator()(const ContractFactory<Contract>::BaseContract &base)
 {
     Contract contract = _factory.cast(base);
     _callback(contract);
