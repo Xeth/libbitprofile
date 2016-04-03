@@ -41,7 +41,18 @@ class ContractFactory : public Ethereum::Connector::ContractFactory
 
     private:
         template<class CallBack>
-        class CallBackWrapper;
+        class CallBackWrapper
+        {
+            public:
+                CallBackWrapper(const CallBack &, ContractFactory<Contract> &);
+
+                void operator()(const boost::system::error_code &);
+                void operator()(const BaseContract &);
+
+            private:
+                CallBack _callback;
+                ContractFactory<Contract> &_factory;
+        };
 
     private:
         Provider &_provider;
@@ -49,20 +60,6 @@ class ContractFactory : public Ethereum::Connector::ContractFactory
 };
 
 
-template<class Contract>
-template<class CallBack>
-class ContractFactory<Contract>::CallBackWrapper
-{
-    public:
-        CallBackWrapper(const CallBack &, ContractFactory<Contract> &);
-
-        void operator()(const boost::system::error_code &);
-        void operator()(const ContractFactory<Contract>::BaseContract &);
-
-    private:
-        CallBack _callback;
-        ContractFactory<Contract> &_factory;
-};
 
 
 #define DECLARE_CONTRACT_FACTORY(ClassName, ContractName, ContractCode)       \
