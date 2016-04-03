@@ -1,5 +1,9 @@
 #include "ProfileStore.hpp"
 
+#ifdef __WINDOWS_OS__
+#include <shlobj.h>
+#endif
+
 
 namespace BitProfile{
 
