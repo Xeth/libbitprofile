@@ -2,7 +2,7 @@ namespace BitProfile{
 
 
 template<class Contract>
-ContractFactory<Contract>::ContractFactory(Provider &provider, const char *code) :
+ContractFactory<Contract>::ContractFactory(Provider &provider, const std::string &code) :
     Base(provider),
     _provider(provider),
     _code(code)

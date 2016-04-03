@@ -20,7 +20,7 @@ class ContractFactory : public Ethereum::Connector::ContractFactory
 
     public:
 
-        ContractFactory(Provider &,  const char *code);
+        ContractFactory(Provider &,  const std::string &code);
 
         Contract at(const address_t &address);
 
@@ -45,7 +45,7 @@ class ContractFactory : public Ethereum::Connector::ContractFactory
 
     private:
         Provider &_provider;
-        const char * _code;
+        const std::string &_code;
 };
 
 
