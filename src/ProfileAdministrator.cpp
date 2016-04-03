@@ -100,7 +100,7 @@ bool ProfileAdministrator::move(Registrar &registrar, const std::string &name, c
         registrar.setGasLimit(gas);
     }
 
-    Resolver resolver(_profile.getProvider());
+    Resolver resolver(_profile.getProvider(), registrar.getNetwork());
     Registrar oldRegistrar = resolver.lookupRegistrar(_profile.getURI().getContext());
     std::string oldName = _profile.getURI().getName();
 
@@ -124,6 +124,7 @@ bool ProfileAdministrator::move(Registrar &registrar, const std::string &name, c
         }
     }
 
+    result = _key.authenticate(_profile.getProvider(), password);
     oldRegistrar.setSenderAddress(_key.getAddress());
 
     return oldRegistrar.unlink(oldName, result.second);
