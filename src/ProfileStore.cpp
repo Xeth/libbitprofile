@@ -123,12 +123,13 @@ bool ProfileStore::changeProfileURI(const std::string &oldURI, const Profile::UR
         return false;
     }
 
-    std::fstream file(oldPath.string().c_str());
+    std::ifstream out(oldPath.string().c_str());
     ProfileDescriptor descriptor;
-    file>>descriptor;
+    out>>descriptor;
     descriptor.setURI(newURI);
-    file<<descriptor;
-    fs::rename(oldPath, newPath);
+    std::ofstream in(newPath.string().c_str(), std::ofstream::trunc);
+    in<<descriptor;
+    fs::remove(oldPath);
     return true;
 }
 
