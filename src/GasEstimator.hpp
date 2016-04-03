@@ -35,7 +35,7 @@ class GasEstimator
         BigInt estimateRegister(const std::string &name, const char *registrarAddress, const char *factoryAddress, const char *sender);
         BigInt estimateEdit(const std::string &name, const std::string &value, const char *profile, const char *sender);
         BigInt estimateLink(const std::string &name, const address_t &address, const char *registrar, const char *sender);
-        BigInt estimateUnlink(const std::string &name, const char *registrar, const char *sender);
+        BigInt estimateUnlink(const std::string &name, const char *registrar, const char *sender, const char *auth);
 
     private:
         typedef Ethereum::ABI::Method Method;

@@ -32,18 +32,22 @@ BigInt GasEstimator::estimateLink(const Registrar &registrar, const ProfileAdmin
 
 BigInt GasEstimator::estimateLink(const std::string &name, const address_t &address, const char *registrarAddress, const char *sender)
 {
-    return _estimator.estimate(sender, registrarAddress, BigInt(0), Method::Encode("link(bytes32,address,bytes)", CONTRACT_ARGUMENTS(ABI_FIXED(name), ABI_ADDRESS(address), "")));
+    BigInt gas = _estimator.estimate(sender, registrarAddress, BigInt(0), Method::Encode("link(bytes32,address,bytes)", CONTRACT_ARGUMENTS(ABI_FIXED(name), ABI_ADDRESS(address), "")));
+    gas += _estimator.estimate(sender, address.c_str(), BigInt(0), Method::Encode("authenticate(address,bytes,uint8)", CONTRACT_ARGUMENTS(ABI_ADDRESS(sender), "", Auth::Owner)));
+    return gas;
 }
 
 
 BigInt GasEstimator::estimateUnlink(const Registrar &registrar, const ProfileAdministrator &admin)
 {
-    return estimateUnlink(admin.getProfile().getURI().getName(), registrar.getAddress().c_str(), admin.getKey().getAddress().c_str());
+    return estimateUnlink(admin.getProfile().getURI().getName(), registrar.getAddress().c_str(), admin.getKey().getAddress().c_str(), admin.getProfile().getAddress().c_str());
 }
 
-BigInt GasEstimator::estimateUnlink(const std::string &name, const char *registrarAddress, const char *sender)
+BigInt GasEstimator::estimateUnlink(const std::string &name, const char *registrarAddress, const char *sender, const char *profile)
 {
-    return _estimator.estimate(sender, registrarAddress, BigInt(0), Method::Encode("unlink(bytes32,bytes)", CONTRACT_ARGUMENTS(ABI_FIXED(name),"")));
+    BigInt gas = _estimator.estimate(sender, registrarAddress, BigInt(0), Method::Encode("unlink(bytes32,bytes)", CONTRACT_ARGUMENTS(ABI_FIXED(name),"")));
+    gas += _estimator.estimate(sender, profile, BigInt(0), Method::Encode("authenticate(address,bytes,uint8)", CONTRACT_ARGUMENTS(ABI_ADDRESS(sender), "", Auth::Owner)));
+    return gas;
 }
 
 BigInt GasEstimator::estimateEdit(const ProfileAdministrator &admin, const std::string &name, const std::string &value)
