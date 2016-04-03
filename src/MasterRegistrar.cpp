@@ -5,12 +5,14 @@ namespace BitProfile{
 
 
 MasterRegistrar::MasterRegistrar(Provider &provider) : 
-    Contract(provider, DEFAULT_MASTER_REGISTRAR)
+    Contract(provider, DEFAULT_MASTER_REGISTRAR),
+    _net(Main_Net)
 {}
 
 
 MasterRegistrar::MasterRegistrar(Provider &provider, Network net) :
-    Contract(provider, (net==Main_Net) ? DEFAULT_MASTER_REGISTRAR : DEFAULT_TESTNET_MASTER_REGISTRAR)
+    Contract(provider, (net==Main_Net) ? DEFAULT_MASTER_REGISTRAR : DEFAULT_TESTNET_MASTER_REGISTRAR),
+    _net(net)
 {}
 
 
@@ -27,7 +29,7 @@ MasterRegistrar::URIList MasterRegistrar::getURIList()
 
 Registrar MasterRegistrar::get(size_t index)
 {
-    return Registrar(getProvider(), call<address_t, Address_Type>("get(uint256)", CONTRACT_ARGUMENTS(uint256_t(index))), RegistrarURI(index));
+    return Registrar(getProvider(), call<address_t, Address_Type>("get(uint256)", CONTRACT_ARGUMENTS(uint256_t(index))), RegistrarURI(index), _net);
 }
 
 

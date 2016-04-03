@@ -3,6 +3,7 @@
 #include "detail/Contract.hpp"
 #include "detail/RegistrarURI.hpp"
 
+#include "Network.hpp"
 #include "Profile.hpp"
 
 namespace BitProfile{
@@ -15,7 +16,7 @@ class Registrar : public Contract
 
     public:
         Registrar(Provider &provider, const std::string &address);
-        Registrar(Provider &provider, const std::string &addres, const URI &uri);
+        Registrar(Provider &provider, const std::string &addres, const URI &uri, Network net);
 
         bool create(const std::string &name, const std::string &authData="");
 
@@ -38,6 +39,7 @@ class Registrar : public Contract
         const URI & getURI() const;
 
         address_t getProfileFactory() const;
+        Network getNetwork() const;
 
     private:
         bool validateName(const std::string &) const;
@@ -45,6 +47,7 @@ class Registrar : public Contract
 
     private:
         URI _uri;
+        Network _net;
 
 };
 

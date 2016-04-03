@@ -36,6 +36,9 @@ class MasterRegistrar : public Contract
 
     private:
         bool checkRegistrar(size_t index);
+
+    private:
+        Network _net;
 };
 
 

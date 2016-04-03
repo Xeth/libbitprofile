@@ -8,11 +8,17 @@ Registrar::Registrar(Provider &provider, const address_t &address) :
 {}
 
 
-Registrar::Registrar(Provider &provider, const address_t &address, const URI &uri) :
+Registrar::Registrar(Provider &provider, const address_t &address, const URI &uri, Network net) :
     Contract(provider, address),
-    _uri(uri)
+    _uri(uri),
+    _net(net)
 {}
 
+
+Network Registrar::getNetwork() const
+{
+    return _net;
+}
 
 bool Registrar::validateName(const std::string &name) const
 {
