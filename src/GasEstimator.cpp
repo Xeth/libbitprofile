@@ -1,5 +1,5 @@
 #include "GasEstimator.hpp"
-
+#include <iostream>
 
 namespace BitProfile{
 
@@ -57,7 +57,10 @@ BigInt GasEstimator::estimateEdit(const ProfileAdministrator &admin, const std::
 
 BigInt GasEstimator::estimateEdit(const std::string &name, const std::string &value, const char *address, const char *sender)
 {
-    return _estimator.estimate(sender, address, BigInt(0), Method::Encode("set(bytes32,bytes,bytes)", CONTRACT_ARGUMENTS(ABI_FIXED(name),value,"")));
+    std::cout<<"estimate edit : name="<<name<<" value="<<value<<std::endl<<std::flush;
+    BigInt gas = _estimator.estimate(sender, address, BigInt(0), Method::Encode("set(bytes32,bytes,bytes)", CONTRACT_ARGUMENTS(ABI_FIXED(name),value,"")));
+    gas += _estimator.estimate(sender, address, BigInt(0), Method::Encode("authenticate(address,bytes,uint8)", CONTRACT_ARGUMENTS(ABI_ADDRESS(sender), "", Auth::Edit)));
+    return gas;
 }
 
 }
