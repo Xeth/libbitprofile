@@ -133,7 +133,13 @@ bool ProfileStore::changeProfileURI(const std::string &oldURI, const Profile::UR
     descriptor.setURI(newURI);
     std::ofstream in(newPath.string().c_str(), std::ofstream::trunc);
     in<<descriptor;
-    fs::remove(oldPath);
+
+    out.close();
+    in.close();
+
+    boost::system::error_code error;
+
+    fs::remove(oldPath, error);
     return true;
 }
 
