@@ -58,7 +58,8 @@ inline bool Contract::cast(ResultTypeTag<bool, Bool_Type>, ContractResult &resul
 
 inline bool Contract::isNull() const
 {
-    return !getAddress().size();
+    const std::string & address = getAddress();
+    return !address.size()||address=="0000000000000000000000000000000000000000";
 }
 
 
