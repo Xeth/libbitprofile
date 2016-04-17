@@ -15,8 +15,8 @@ file(GLOB_RECURSE SOURCES "src/*.cpp")
 CopyHeaders()
 add_library(bitprofile STATIC ${SOURCES})
 
-
-install(DIRECTORY ${PROJECT_BINARY_DIR}/include/bitprofile DESTINATION include)
-install (TARGETS bitprofile ARCHIVE DESTINATION lib LIBRARY DESTINATION lib RUNTIME DESTINATION bin)
-
+if(NOT SKIP_LIBRARY_INSTALL)
+    install(DIRECTORY ${PROJECT_BINARY_DIR}/include/bitprofile DESTINATION include OPTIONAL)
+    install (TARGETS bitprofile ARCHIVE DESTINATION lib LIBRARY DESTINATION lib RUNTIME DESTINATION bin OPTIONAL)
+endif()
 
