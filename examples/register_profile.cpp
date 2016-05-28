@@ -18,7 +18,7 @@ int main(int argc, char **argv)
     }
 
     Ethereum::Connector::Provider provider;
-    provider.connect();
+    provider.connect(Ethereum::Connector::Test_Net);
     std::string password = PromptPassword();
 
     BitProfile::MasterRegistrar master(provider, BitProfile::Test_Net);

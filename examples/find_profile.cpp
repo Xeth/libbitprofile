@@ -15,7 +15,7 @@ int main(int argc, char **argv)
     }
 
     Ethereum::Connector::Provider provider;
-    provider.connect();
+    provider.connect(Ethereum::Connector::Test_Net);
 
     BitProfile::Resolver resolver(provider, BitProfile::Test_Net);
     BitProfile::Profile profile = resolver.lookupProfile(argv[1]);

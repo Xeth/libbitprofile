@@ -12,7 +12,7 @@ int main(int argc, char **argv)
 {
 
     Ethereum::Connector::Provider provider;
-    provider.connect();
+    provider.connect(Ethereum::Connector::Test_Net);
 
     MasterRegistrar master(provider, BitProfile::Test_Net);
     MasterRegistrar::URIList list = master.getURIList();

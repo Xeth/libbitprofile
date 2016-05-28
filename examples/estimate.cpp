@@ -65,7 +65,7 @@ int main(int argc, char **argv)
     std::string command(argv[1]);
 
     Ethereum::Connector::Provider provider;
-    provider.connect();
+    provider.connect(Ethereum::Connector::Test_Net);
 
     Resolver resolver(provider, Test_Net);
     ProfileStore store(Test_Net);
