@@ -14,11 +14,11 @@ const address_t & AddressAuthKey::getAddress() const
 }
 
 
-std::pair<bool, std::string> AddressAuthKey::authenticate(Provider &provider, const std::string &password) const
+std::pair<bool, std::string> AddressAuthKey::getAuthData(const std::string &password) const
 {
-    Ethereum::Connector::Wallet wallet(provider);
-    return std::make_pair(wallet.unlockAccount(_address, password, 5), "");
+    return std::make_pair(true, "");
 }
+
 
 
 

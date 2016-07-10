@@ -27,7 +27,7 @@ enum DataType{String_Type, Uint_Type, Bool_Type, Int_Type, Address_Type};
 class Contract : public Ethereum::Connector::Contract
 {
     public:
-        
+        using Ethereum::Connector::Contract::Auth;
 
     public:
        Contract(Provider &, const address_t &address);
@@ -44,16 +44,33 @@ class Contract : public Ethereum::Connector::Contract
     protected:
 
         template<class CheckCallback>
-        bool executeConfirm(const char *, const ContractArguments &, const CheckCallback &);
+        bool executeConfirm(const char *, const ContractArguments &, const std::string &password, const CheckCallback &);
 
         template<class CheckCallback>
-        bool executeConfirm(const char *, const CheckCallback &);
+        bool executeConfirm(const char *, const std::string &password, const CheckCallback &);
 
         template<class CheckCallback, class Callback>
-        void executeConfirm(const char *, const ContractArguments &, const CheckCallback &, const Callback &);
+        void executeConfirm(const char *, const ContractArguments &, const std::string &password, const CheckCallback &, const Callback &);
 
         template<class CheckCallback, class Callback>
-        void executeConfirm(const char *, const CheckCallback &, const Callback &);
+        void executeConfirm(const char *, const std::string &password, const CheckCallback &, const Callback &);
+
+
+        template<class CheckCallback>
+        bool executeConfirm(const char *, const ContractArguments &, const Auth &, const CheckCallback &);
+
+        template<class CheckCallback>
+        bool executeConfirm(const char *, const Auth &, const CheckCallback &);
+
+        template<class CheckCallback, class Callback>
+        void executeConfirm(const char *, const ContractArguments &, const Auth &, const CheckCallback &, const Callback &);
+
+        template<class CheckCallback, class Callback>
+        void executeConfirm(const char *, const Auth &, const CheckCallback &, const Callback &);
+
+        template<class CheckCallback>
+        bool watch(const std::string &, const CheckCallback &);
+
 
         template<class Result, DataType type>
         Result call(const char *method) const;

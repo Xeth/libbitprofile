@@ -14,7 +14,7 @@ class KeyAdapter
         KeyAdapter(const Key &);
 
         const address_t & getAddress() const;
-        std::pair<bool, std::string> authenticate(Provider &, const std::string &password);
+        std::pair<bool, std::string> getAuthData(const std::string &password);
 
         std::string getTypeName() const;
 

@@ -68,33 +68,65 @@ inline Provider & Contract::getProvider()
     return _provider;
 }
 
+
 template<class CheckCallback>
-bool Contract::executeConfirm(const char *method, const CheckCallback &check)
+inline bool Contract::watch(const std::string &txid, const CheckCallback &check)
 {
-    _lastTransaction = execute(method);
+    _lastTransaction = txid;
     return _observer.watch(_lastTransaction) && check();
 }
 
+
 template<class CheckCallback>
-bool Contract::executeConfirm(const char *method, const ContractArguments &args, const CheckCallback &check)
+bool Contract::executeConfirm(const char *method, const std::string &password, const CheckCallback &check)
 {
-    _lastTransaction = execute(method, args);
-    return _observer.watch(_lastTransaction) && check();
+    return watch(execute(method, password), check);
+}
+
+template<class CheckCallback>
+bool Contract::executeConfirm(const char *method, const ContractArguments &args, const std::string &password, const CheckCallback &check)
+{
+    return watch(execute(method, args, password), check);
 }
 
 template<class CheckCallback, class Callback>
-void Contract::executeConfirm(const char *method, const ContractArguments &args, const CheckCallback &check, const Callback &callback)
+void Contract::executeConfirm(const char *method, const ContractArguments &args, const std::string &password, const CheckCallback &check, const Callback &callback)
 {
-    _lastTransaction = execute(method, args);
-    _observer.watch(_lastTransaction, ConfirmCallbackDelegate<CheckCallback, Callback>(check, callback));
+    return watch(execute(method, args, password), ConfirmCallbackDelegate<CheckCallback, Callback>(check, callback));
 }
 
 template<class CheckCallback, class Callback>
-void Contract::executeConfirm(const char *method, const CheckCallback &check, const Callback &callback)
+void Contract::executeConfirm(const char *method, const std::string &password, const CheckCallback &check, const Callback &callback)
 {
-    _lastTransaction = execute(method);
-    _observer.watch(_lastTransaction, ConfirmCallbackDelegate<CheckCallback, Callback>(check, callback));
+    return watch(execute(method, password), ConfirmCallbackDelegate<CheckCallback, Callback>(check, callback));
 }
+
+
+//
+template<class CheckCallback>
+bool Contract::executeConfirm(const char *method, const Auth &auth, const CheckCallback &check)
+{
+    return watch(execute(method, auth), check);
+}
+
+template<class CheckCallback>
+bool Contract::executeConfirm(const char *method, const ContractArguments &args, const Auth &auth, const CheckCallback &check)
+{
+    return watch(execute(method, args, auth), check);
+}
+
+template<class CheckCallback, class Callback>
+void Contract::executeConfirm(const char *method, const ContractArguments &args, const Auth &auth, const CheckCallback &check, const Callback &callback)
+{
+    return watch(execute(method, args, auth), ConfirmCallbackDelegate<CheckCallback, Callback>(check, callback));
+}
+
+template<class CheckCallback, class Callback>
+void Contract::executeConfirm(const char *method, const Auth &auth, const CheckCallback &check, const Callback &callback)
+{
+    return watch(execute(method, auth), ConfirmCallbackDelegate<CheckCallback, Callback>(check, callback));
+}
+//
 
 
 template<class CheckCallback, class Callback>

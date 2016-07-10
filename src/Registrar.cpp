@@ -49,63 +49,7 @@ address_t Registrar::getProfileFactory() const
 }
 
 
-bool Registrar::create(const std::string &name, const std::string &authData)
-{
-    if(!validateName(name))
-    {
-        return false;
-    }
 
-    if(contains(name))
-    {
-        return false;
-    }
-
-    return executeConfirm
-    (
-        "register(bytes32,bytes)",
-        CONTRACT_ARGUMENTS(ABI_FIXED(name), authData),
-        boost::bind(&Registrar::checkProfile, this, name, getSenderAddress(), true)
-    );
-}
-
-
-
-
-bool Registrar::link(const std::string &name, const address_t &address, const std::string &authData)
-{
-    if(!validateName(name))
-    {
-        return false;
-    }
-
-    if(contains(name))
-    {
-        return false;
-    }
-
-    return executeConfirm
-    (
-        "link(bytes32,address,bytes)",
-        CONTRACT_ARGUMENTS(ABI_FIXED(name), ABI_ADDRESS(address), authData),
-        boost::bind(&Registrar::checkProfile, this, name, getSenderAddress(), true)
-    );
-}
-
-
-bool Registrar::unlink(const std::string &name, const std::string &authData)
-{
-    if(!contains(name))
-    {
-        return true;
-    }
-    return executeConfirm
-    (
-        "unlink(bytes32,bytes)",
-        CONTRACT_ARGUMENTS(ABI_FIXED(name), authData),
-        boost::bind(&Registrar::checkProfile, this, name, getSenderAddress(), false)
-    );
-}
 
 
 bool Registrar::contains(const std::string &name)
@@ -124,7 +68,7 @@ Profile Registrar::get(const std::string &name)
 bool Registrar::checkProfile(std::string name, address_t address, bool active)
 {
     Profile profile = get(name);
-    return profile.authenticate(address, Auth::Owner) == active;
+    return profile.authenticate(address, BitProfile::Auth::Owner) == active;
 }
 
 

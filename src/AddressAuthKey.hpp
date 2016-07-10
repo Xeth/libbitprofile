@@ -18,7 +18,7 @@ class AddressAuthKey
         AddressAuthKey(const address_t &);
 
         const address_t & getAddress() const;
-        std::pair<bool, std::string> authenticate(Provider &, const std::string &password) const;
+        std::pair<bool, std::string> getAuthData(const std::string &password) const;
 
 
     private:

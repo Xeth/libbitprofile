@@ -17,32 +17,32 @@ Contract ContractFactory<Contract>::at(const address_t &address)
 
 
 template<class Contract>
-Contract ContractFactory<Contract>::deploy()
+Contract ContractFactory<Contract>::deploy(const std::string &password)
 {
-    return cast(Base::deploy(_code));
+    return cast(Base::deploy(_code, password));
 }
 
 
 template<class Contract>
-Contract ContractFactory<Contract>::deploy(const arguments_t &args)
+Contract ContractFactory<Contract>::deploy(const arguments_t &args, const std::string &password)
 {
-    return cast(Base::deploy(_code, args));
-}
-
-
-template<class Contract>
-template<class CallBack>
-void ContractFactory<Contract>::deploy(const CallBack &callback)
-{
-    Base::deploy(_code, CallBackWrapper<CallBack>(callback, *this));
+    return cast(Base::deploy(_code, args, password));
 }
 
 
 template<class Contract>
 template<class CallBack>
-void ContractFactory<Contract>::deploy(const arguments_t &args, const CallBack &callback)
+void ContractFactory<Contract>::deploy(const std::string &password, const CallBack &callback)
 {
-    Base::deploy(_code, args, CallBackWrapper<CallBack>(callback, *this));
+    Base::deploy(_code, password, CallBackWrapper<CallBack>(callback, *this));
+}
+
+
+template<class Contract>
+template<class CallBack>
+void ContractFactory<Contract>::deploy(const arguments_t &args, const std::string &password, const CallBack &callback)
+{
+    Base::deploy(_code, args, password, CallBackWrapper<CallBack>(callback, *this));
 }
 
 

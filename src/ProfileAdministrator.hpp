@@ -27,47 +27,56 @@ class ProfileAdministrator
         void setGasPrice(const BigInt &);
         void setGasLimit(const BigInt &);
 
-        bool set(const std::string &key, const std::string &value, const std::string &password);
+        template<class Permit>
+        bool set(const std::string &key, const std::string &value, const Permit &);
 
-        template<class Callback>
-        void set(const std::string &key, const std::string &value, const std::string &password, const Callback &);
+        template<class Permit, class Callback>
+        void set(const std::string &key, const std::string &value, const Permit &, const Callback &);
 
-        bool setPaymentAddress(const address_t &, const std::string &password);
+        template<class Permit>
+        bool setPaymentAddress(const address_t &, const Permit &);
 
-        template<class Callback>
-        void setPaymentAddress(const address_t &, const std::string &password, const Callback &);
+        template<class Permit, class Callback>
+        void setPaymentAddress(const address_t &, const Permit &, const Callback &);
 
-        bool changeAuth(const AddressAuth &, const std::string &password);
+        template<class Permit>
+        bool changeAuth(const AddressAuth &, const Permit &);
 
-        template<class Callback>
-        void changeAuth(const AddressAuth &, const std::string &password, const Callback &);
+        template<class Permit, class Callback>
+        void changeAuth(const AddressAuth &, const Permit &, const Callback &);
 
+        template<class Permit>
+        bool link(Registrar &, const std::string &name, const Permit &);
 
-        bool link(Registrar &, const std::string &name, const std::string &password);
-        bool unlink(Registrar &, const std::string &password);
+        template<class Permit>
+        bool unlink(Registrar &, const Permit &);
 
-        template<class Callback>
-        void link(Registrar &, const std::string &name, const std::string &password, const Callback &);
+        template<class Permit, class Callback>
+        void link(Registrar &, const std::string &name, const Permit &, const Callback &);
 
-        template<class Callback>
-        void unlink(Registrar &, const std::string &password, const Callback &);
+        template<class Permit, class Callback>
+        void unlink(Registrar &, const Permit &, const Callback &);
 
-        bool move(Registrar &, const std::string &name, const std::string &password, const BigInt &gas);
+        template<class Permit>
+        bool move(Registrar &, const std::string &name, const Permit &, const BigInt &gas);
 
-        static ProfileAdministrator CreateProfile(Registrar &, const std::string &name, const std::string &password);
-        static ProfileAdministrator CreateProfile(Registrar &, const std::string &name, const address_t &, const std::string &password);
+        template<class Permit>
+        static ProfileAdministrator CreateProfile(Registrar &, const std::string &name, const Permit &);
 
-        template<class Callback>
-        static void CreateProfile(Registrar &, const std::string &name, const std::string &password, const Callback &);
+        template<class Permit>
+        static ProfileAdministrator CreateProfile(Registrar &, const std::string &name, const address_t &, const Permit &);
 
-        template<class Callback>
-        static void CreateProfile(Registrar &, const std::string &name, const address_t &, const std::string &password, const Callback &);
+        template<class Permit, class Callback>
+        static void CreateProfileAsync(Registrar &, const std::string &name, const Permit &, const Callback &);
 
-        template<class Key>
-        static ProfileAdministrator CreateProfile(Registrar &, const std::string &name, const Key &, const std::string &password);
+        template<class Permit, class Callback>
+        static void CreateProfileAsync(Registrar &, const std::string &name, const address_t &, const Permit &, const Callback &);
 
-        template<class Key, class Callback>
-        static void CreateProfile(Registrar &, const std::string &name, const Key &, const std::string &password, const Callback &);
+        template<class Key, class Permit>
+        static ProfileAdministrator CreateProfile(Registrar &, const std::string &name, const Key &, const Permit &);
+
+        template<class Key, class Permit, class Callback>
+        static void CreateProfileAsync(Registrar &, const std::string &name, const Key &, const Permit &, const Callback &);
 
         static ProfileAdministrator FromDescriptor(Provider &, const ProfileDescriptor &);
 
@@ -82,7 +91,7 @@ class ProfileAdministrator
         template<class Callback, class Key>
         class CreateProfileCallback;
 
-        template<class Callback>
+        template<class Callback, class Permit>
         class RenameProfileCallback;
 
     private:

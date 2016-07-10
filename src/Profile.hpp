@@ -17,34 +17,43 @@ class Profile : public Contract
         Profile(Provider &provider, const std::string &addres);
         Profile(Provider &provider, const std::string &addres, const ProfileURI &uri);
 
-        bool set(const std::string &key, const std::string &value, const std::string &authData = "");
-        bool clear(const std::string &key, const std::string &authData = "");
+        template<class Permit>
+        bool set(const std::string &key, const std::string &value, const std::string &authData, const Permit &);
+
+        template<class Permit>
+        bool clear(const std::string &key, const std::string &authData, const Permit &);
+
+        template<class Permit>
+        bool setPaymentAddress(const address_t &, const std::string &authData, const Permit &);
+
+        template<class Permit>
+        bool transfer(const address_t &, const std::string &authData, const Permit &);
+
+        template<class Permit>
+        txid_t setPermission(const std::string &key, BitProfile::Auth::Permission, const std::string &authData, const Permit &);
+
+        template<class Permit>
+        txid_t kill(const std::string &authData, const Permit &);
+
+        template<class Permit, class Callback>
+        void set(const std::string &key, const std::string &value, const std::string &authData, const Permit &, const Callback &);
+
+        template<class Permit, class Callback>
+        void clear(const std::string &key, const std::string &authData, const Permit &, const Callback &);
+
+        template<class Permit, class Callback>
+        void setPaymentAddress(const address_t &, const std::string &authData, const Permit &, const Callback &);
+
+        template<class Permit, class Callback>
+        void transfer(const address_t &, const std::string &authData, const Permit &, const Callback &);
+
+
+
+
         std::string get(const std::string &key) const;
-
         address_t getPaymentAddress() const;
-        bool setPaymentAddress(const address_t &, const std::string &authData = "");
-
-        bool authenticate(const address_t &, Auth::Permission);
+        bool authenticate(const address_t &, BitProfile::Auth::Permission);
         address_t getAuth() const;
-
-        bool transfer(const address_t &, const std::string &authData = "");
-
-        template<class Callback>
-        void set(const std::string &key, const std::string &value, const std::string &authData, const Callback &);
-
-        template<class Callback>
-        void clear(const std::string &key, const std::string &authData, const Callback &);
-
-        template<class Callback>
-        void setPaymentAddress(const address_t &, const std::string &authData, const Callback &);
-
-        template<class Callback>
-        void transfer(const address_t &, const std::string &authData, const Callback &);
-
-        txid_t setPermission(const std::string &key, Auth::Permission, const std::string &authData="");
-        txid_t kill(const std::string &authData = "");
-
-
         const URI & getURI() const;
 
     private:

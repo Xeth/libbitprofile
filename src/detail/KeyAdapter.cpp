@@ -10,9 +10,9 @@ const address_t & KeyAdapter::getAddress() const
 }
 
 
-std::pair<bool, std::string> KeyAdapter::authenticate(Provider &provider, const std::string &password)
+std::pair<bool, std::string> KeyAdapter::getAuthData(const std::string &password)
 {
-    return _holder->authenticate(provider, password);
+    return _holder->getAuthData(password);
 }
 
 

@@ -45,14 +45,6 @@ bool MasterRegistrar::isBeta()
 }
 
 
-bool MasterRegistrar::create()
-{
-    return executeConfirm
-    (
-        "create()",
-        boost::bind(&MasterRegistrar::checkRegistrar, this, getSize())
-    );
-}
 
 
 bool MasterRegistrar::checkRegistrar(size_t index)

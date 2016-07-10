@@ -16,19 +16,23 @@ class AddressAuth :
     public:
         AddressAuth(Provider &, const address_t &address);
 
-        bool set(const address_t &address, Auth::Permission);
-        bool remove(const address_t &address);
+        template<class Permit>
+        bool set(const address_t &address, BitProfile::Auth::Permission, const Permit &);
 
-        template<class Callback>
-        void set(const address_t &address, Auth::Permission, const Callback &);
+        template<class Permit>
+        bool remove(const address_t &address, const Permit &);
 
-        template<class Callback>
-        void remove(const address_t &address, const Callback &callback);
+        template<class Permit, class Callback>
+        void set(const address_t &address, BitProfile::Auth::Permission, const Permit &, const Callback &);
 
-        bool authenticate(const address_t &address, Auth::Permission);
+        template<class Permit, class Callback>
+        void remove(const address_t &address, const Permit &, const Callback &callback);
+
+
+        bool authenticate(const address_t &address, BitProfile::Auth::Permission);
 
     private:
-        bool checkAuth(address_t, Auth::Permission, bool active);
+        bool checkAuth(address_t, BitProfile::Auth::Permission, bool active);
 };
 
 DECLARE_CONTRACT_FACTORY(AddressAuthFactory, AddressAuth, BitProfile::ContractCode::AddressAuth);

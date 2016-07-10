@@ -24,14 +24,14 @@ class ContractFactory : public Ethereum::Connector::ContractFactory
 
         Contract at(const address_t &address);
 
-        Contract deploy();
-        Contract deploy(const arguments_t &);
+        Contract deploy(const std::string &password);
+        Contract deploy(const arguments_t &, const std::string &password);
 
         template<class CallBack>
-        void deploy(const CallBack &);
+        void deploy(const std::string &password, const CallBack &);
 
         template<class CallBack>
-        void deploy(const arguments_t &, const CallBack &);
+        void deploy(const arguments_t &, const std::string &password, const CallBack &);
 
     private:
         Contract cast(const BaseContract &);

@@ -27,10 +27,12 @@ class MasterRegistrar : public Contract
         bool isBeta();
         size_t getSize();
 
-        bool create();
+        template<class Permit>
+        bool create(const Permit &);
 
-        template<class Callback>
-        void create(const Callback &);
+        template<class Permit, class Callback>
+        void create(const Permit &, const Callback &);
+
 
         URIList getURIList();
 

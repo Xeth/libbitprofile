@@ -6,6 +6,7 @@
 #include "Network.hpp"
 #include "Profile.hpp"
 
+
 namespace BitProfile{
 
 
@@ -18,20 +19,24 @@ class Registrar : public Contract
         Registrar(Provider &provider, const std::string &address);
         Registrar(Provider &provider, const std::string &addres, const URI &uri, Network net);
 
-        bool create(const std::string &name, const std::string &authData="");
+        template<class Permit>
+        bool create(const std::string &name, const std::string &authData, const Permit &);
 
-        template<class Callback>
-        void create(const std::string &name, const std::string &authData, const Callback &);
+        template<class Permit>
+        bool link(const std::string &, const address_t &address, const std::string &authData, const Permit &);
 
-        bool link(const std::string &, const address_t &address, const std::string &authData="");
+        template<class Permit>
+        bool unlink(const std::string &, const std::string &authData, const Permit &);
 
-        template<class Callback>
-        void link(const std::string &, const address_t &address, const std::string &authData, const Callback &);
+        template<class Permit, class Callback>
+        void create(const std::string &name, const std::string &authData, const Permit &, const Callback &);
 
-        bool unlink(const std::string &, const std::string &authData="");
+        template<class Permit, class Callback>
+        void link(const std::string &, const address_t &address, const std::string &authData, const Permit &, const Callback &);
 
-        template<class Callback>
-        void unlink(const std::string &, const std::string &authData, const Callback &);
+        template<class Permit, class Callback>
+        void unlink(const std::string &, const std::string &authData, const Permit &, const Callback &);
+
 
         bool contains(const std::string &);
         Profile get(const std::string &);
