@@ -3,8 +3,7 @@
 
 #include "ethrpc/Provider.hpp"
 #include "bitprofile/Resolver.hpp"
-
-#include "utils/UnlockAccount.hpp"
+#include "utils/PromptPassword.hpp"
 
 int main(int argc, char **argv)
 {
@@ -14,9 +13,10 @@ int main(int argc, char **argv)
         return 1;
     }
 
+    std::string password = PromptPassword();
+
     Ethereum::Connector::Provider provider;
     provider.connect(Ethereum::Connector::Test_Net);
-    UnlockAccount(provider);
 
     BitProfile::Resolver resolver(provider, BitProfile::Test_Net);
     BitProfile::Profile profile = resolver.lookupProfile(argv[1]);
@@ -29,7 +29,7 @@ int main(int argc, char **argv)
     {
         std::cout<<"profile found : "<<profile.getAddress()<<std::endl;
         std::cout<<"uri : "<<argv[1]<<std::endl;
-        std::cout<<"edit : "<<profile.set(argv[2], argv[3])<<std::endl;
+        std::cout<<"edit : "<<profile.set(argv[2], argv[3], "", password)<<std::endl;
         std::cout<<"profile data["<<argv[2]<<"]="<<profile.get(argv[2])<<std::endl;
     }
 

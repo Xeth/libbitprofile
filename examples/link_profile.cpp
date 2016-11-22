@@ -4,7 +4,7 @@
 #include "ethrpc/Provider.hpp"
 #include "bitprofile/Resolver.hpp"
 
-#include "utils/UnlockAccount.hpp"
+#include "utils/PromptPassword.hpp"
 
 int main(int argc, char **argv)
 {
@@ -16,8 +16,7 @@ int main(int argc, char **argv)
 
     Ethereum::Connector::Provider provider;
     provider.connect(Ethereum::Connector::Test_Net);
-    UnlockAccount(provider);
-
+    std::string password = PromptPassword();
     BitProfile::Resolver resolver(provider, BitProfile::Test_Net);
     BitProfile::Profile profile = resolver.lookupProfile(argv[1]);
 
@@ -38,7 +37,7 @@ int main(int argc, char **argv)
             return 1;
         }
 
-        bool result = registrar.link(argv[3], profile.getAddress(), "");
+        bool result = registrar.link(argv[3], profile.getAddress(), "", password);
         std::cout<<"link : "<<result;
 
     }
