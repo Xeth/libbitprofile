@@ -22,7 +22,12 @@ int main(int argc, char **argv)
     {
         std::cout<<"* "<<it->toString();
         Registrar registrar = master.get(it->getIndex());
-        std::cout<<" : "<<registrar.getAddress()<<std::endl;
+        std::cout<<" : "<<registrar.getAddress();
+        if(registrar.isBeta())
+        {
+            std::cout<<" (BETA) ";
+        }
+        std::cout<<std::endl;
     }
 
     std::cout<<std::endl;

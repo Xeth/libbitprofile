@@ -20,6 +20,12 @@ Network Registrar::getNetwork() const
     return _net;
 }
 
+
+bool Registrar::isBeta() const
+{
+    return call<bool, Bool_Type>("isBeta()");
+}
+
 bool Registrar::validateName(const std::string &name) const
 {
     if(name.size()>32)

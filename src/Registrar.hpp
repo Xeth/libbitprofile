@@ -41,6 +41,8 @@ class Registrar : public Contract
         bool contains(const std::string &);
         Profile get(const std::string &);
 
+        bool isBeta() const;
+
         const URI & getURI() const;
 
         address_t getProfileFactory() const;
