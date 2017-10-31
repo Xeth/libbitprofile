@@ -1,11 +1,3 @@
-find_package(JsonCPP REQUIRED)
-find_package(CryptoPP REQUIRED)
-find_package(Boost COMPONENTS system thread filesystem date_time chrono regex REQUIRED)
-find_package(EthRPC REQUIRED)
-
-
-set(CMAKE_THREAD_PREFER_PTHREAD ON)
-find_package(Threads REQUIRED)
 
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/examples)
 
@@ -13,7 +5,7 @@ file(GLOB EXAMPLES
     "examples/*.cpp"
 )
 
-include_directories(${Boost_INCLUDE_DIRS} ${CMAKE_CURRENT_BINARY_DIR}/include)
+include_directories(${Boost_INCLUDE_DIRS} ${CMAKE_CURRENT_BINARY_DIR}/include ${ETHCRYPTO_INCLUDE_DIRS})
 
 foreach(EXAMPLE ${EXAMPLES})
     get_filename_component(EXAMPLE_NAME ${EXAMPLE} NAME_WE)
@@ -28,7 +20,7 @@ foreach(EXAMPLE ${EXAMPLES})
         ${Boost_SYSTEM_LIBRARY}
         ${Boost_THREAD_LIBRARY}
         ${Boost_FILESYSTEM_LIBRARY}
-        ${CRYPTOPP_LIBRARY}
+        ${ETHCRYPTO_LIBRARIES}
         ${CMAKE_THREAD_LIBS_INIT}
     )
     if(WIN32)
