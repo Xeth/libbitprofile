@@ -1,8 +1,8 @@
 #pragma once
 
 #include "ethrpc/GasEstimator.hpp"
-#include "ethrpc/abi/ContractConstructor.hpp"
-#include "ethrpc/abi/Method.hpp"
+#include "abi/ContractConstructor.hpp"
+#include "abi/Method.hpp"
 
 #include "Network.hpp"
 #include "Registrar.hpp"
