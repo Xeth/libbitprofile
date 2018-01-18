@@ -3,4 +3,4 @@
 	url = https://github.com/Xeth/cmake-modules.git
 [submodule "contract"]
 	path = contract
-	url = https://github.com/Xeth/bitprofile.sol.git
+	url = https://github.com/BitProfile/bitprofile.sol.git
